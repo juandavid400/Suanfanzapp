@@ -25,30 +25,50 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   chats: Array<ChatI> = [
     {
-      title: "Santi",
-      icon: "/assets/img/ppRightBar.png",
+      title: "El costeño",
+      icon: "/assets/img/ca.jpeg",
       isRead: true,
-      msgPreview: "entonces ando usando fotos reales hahaha",
+      msgPreview: "como gallinazo",
       lastMsg: "11:13",
       msgs: [
-        {content: "Lorem ipsum dolor amet", isRead:true, isMe:true, time:"7:24"},
-        {content: "Qué?", isRead:true, isMe:false, time:"7:25"},
+        {content: "a lo que se mueva", isRead:true, isMe:true, time:"7:24"},
+        {content: "entonces ando de gallinazo", isRead:true, isMe:false, time:"7:25"},
       ]
     },
     {
-      title: "Pablo Bejarano",
-      icon: "/assets/img/ppInbox.png",
+      title: "El traumado",
+      icon: "/assets/img/tr.jpg",
       isRead: true,
-      msgPreview: "Estrenando componente",
+      msgPreview: "Suerte es que le deseo, haga eso pi****",
       lastMsg: "18:30",
-      msgs: []
+      msgs: [
+        {content: "Suerte es que le deseo, haga eso pi****", isRead:true, isMe:true, time:"9:24"},
+        {content: "obligueme perro", isRead:true, isMe:false, time:"9:25"},
+      ]
+
     },
     {
-      title: "Pablo Bejarano 2",
-      icon: "/assets/img/ppInbox.png",
+      title: "Solos Pobres y FEOS",
+      icon: "/assets/img/td.jpeg",
       isRead: true,
       msgPreview: "Nice front 😎",
       lastMsg: "23:30",
+      msgs: []
+    },
+    {
+      title: "El de la moto",
+      icon: "/assets/img/go.jpg",
+      isRead: true,
+      msgPreview: " 😎",
+      lastMsg: "3:30",
+      msgs: []
+    },
+    {
+      title: "El charlon",
+      icon: "/assets/img/al.PNG",
+      isRead: true,
+      msgPreview: " 😎",
+      lastMsg: "8:30",
       msgs: []
     },
   ];
