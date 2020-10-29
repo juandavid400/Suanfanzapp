@@ -8,13 +8,7 @@ import { RegisterService } from "src/app/shared/services/register.service";
 import { UserI } from "src/app/shared/interfaces/UserI";
 // import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireAuth } from "@angular/fire/auth";
-import {
-  FormControl,
-  FormGroup,
-  NgForm,
-  Validators,
-  FormBuilder,
-} from "@angular/forms";
+import {  FormControl,FormGroup,NgForm,Validators,FormBuilder,} from "@angular/forms";
 import * as firebase from "firebase";
 import { Router } from "@angular/router";
 import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
@@ -27,6 +21,9 @@ import { ToastrService } from "ngx-toastr";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   contactAdded: boolean = false;
+  registerList: UserI[];
+  register = [];
+  itemRef: any;
 
   FormAdd = new FormGroup({
     Numbercontact: new FormControl(),
@@ -121,9 +118,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private toastr: ToastrService
   ) {}
 
-  registerList: UserI[];
-  register = [];
-  itemRef: any;
+  
 
   ngOnInit(): void {
     this.initChat();
@@ -236,6 +231,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   countPhoto: number = 0;
+
+  SettingsToggle() {
+    const query: string = "#app .DesplegableLeftMore";
+    const DesplegableLeftMore: any = document.querySelector(query);
+
+    if (this.countSett == 0) {
+      this.countSett = 1;
+      DesplegableLeftMore.style.opacity = 1;
+      DesplegableLeftMore.style.transform = "scale(1)";
+    } else {
+      this.countSett = 0;
+      DesplegableLeftMore.style.opacity = 0;
+      DesplegableLeftMore.style.transform = "scale(0)";
+    }
+  }
+
+  countSett: number = 0;
 
   async SendContact() {
     console.log(this.registerList);

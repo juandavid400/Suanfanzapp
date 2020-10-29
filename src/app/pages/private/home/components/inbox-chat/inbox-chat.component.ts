@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { UserI } from 'src/app/shared/interfaces/UserI';
+import { RegisterService } from 'src/app/shared/services/register.service';
 
 @Component({
   selector: 'app-inbox-chat',
@@ -13,14 +15,23 @@ export class InboxChatComponent implements OnInit {
   @Input() msgPreview: string
   @Input() isRead: string = undefined
 
+  registerList: UserI[];
+  register = [];
+  itemRef: any;
+
   readStatusColor: string
 
-  constructor() { 
+  constructor(
+    private registerService: RegisterService,) { 
     
   }
 
   ngOnInit(): void {
+
     this.readStatusColor = this.isRead && this.isRead !== "false" ? "#50C2F7" : "#ABABAB";
+    
   }
+
+
 
 }
