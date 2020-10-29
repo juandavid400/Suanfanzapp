@@ -1,0 +1,86 @@
+<div id="app">
+    <div class="leftBigContainer">
+        <div class="addcontact">
+            <div class="goBackBtn" (click)="addcontact()"> 
+                <svg class="backimg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="#ffffff" d="M12 4l1.4 1.4L7.8 11H20v2H7.8l5.6 5.6L12 20l-8-8 8-8z"></path>
+                </svg>
+                New Contact
+            </div>
+            <svg class="añadirimg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><path fill="#ffffff" d="M15.313 15.672c2.401 0 4.237-1.835 4.237-4.235S17.713 7.2 15.313 7.2s-4.235 1.836-4.235 4.237 1.834 4.235 4.235 4.235zm9.349-.64c1.571 0 2.773-1.201 2.773-2.772 0-1.571-1.202-2.773-2.773-2.773s-2.772 1.202-2.772 2.773c0 1.571 1.201 2.772 2.772 2.772zm-1.724 5.841a7.856 7.856 0 0 0-.889-1.107 8.074 8.074 0 0 0-1.825-1.413 9.05 9.05 0 0 0-.675-.346l-.021-.009c-1.107-.502-2.5-.851-4.232-.851-1.732 0-3.124.349-4.232.851l-.112.054a9.247 9.247 0 0 0-.705.374 8.137 8.137 0 0 0-1.705 1.341 7.991 7.991 0 0 0-.656.773 8.584 8.584 0 0 0-.233.334c-.063.095-.116.184-.164.263l-.012.02a4.495 4.495 0 0 0-.213.408v2.276h16.061v-2.276s-.07-.164-.225-.427a4.257 4.257 0 0 0-.162-.265zm1.724-4.357c-1.333 0-2.376.3-3.179.713a9.409 9.409 0 0 1 1.733 1.218c1.402 1.25 1.959 2.503 2.017 2.641l.021.049h4.954v-1.571s-1.294-3.05-5.546-3.05zM9.41 13.78H6.261v-3.152H4.344v3.152H1.2v1.918h3.144v3.145h1.917v-3.145H9.41V13.78z"></path></svg>
+            <form [formGroup]="FormAdd">
+                <div class="containerAdd">
+                    <div class="field">
+                        <p class="control has-icons-left">
+                            <input class="input" formControlName="Numbercontact" type="email" placeholder="Email or phonenumber">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                          </span>
+                        </p>
+                      </div>
+                    
+                    <div class="field">
+                        <p class="control has-icons-left">
+                         <input class="input" formControlName="Namecontact" type="text" placeholder="Name contact">
+                          <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                          </span>
+                        </p>
+                      </div>
+                    <div type="submit" class="addContactBtn" (click)="SendContact()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="#ffffff" d="M8 17.1l-5.2-5.2-1.7 1.7 6.9 7L22.9 5.7 21.2 4 8 17.1z"></path>
+                        </svg>
+                    </div>
+
+                </div>     
+            </form>
+            
+        </div>
+        <div class="topBarLeft">
+            <div class="PerfilPhoto" >
+                <div class="goBackBtn2" (click)="PerfilPhoto()"> 
+                    <svg class="backimg2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#ffffff" d="M12 4l1.4 1.4L7.8 11H20v2H7.8l5.6 5.6L12 20l-8-8 8-8z"></path>
+                    </svg>
+                    Profile
+                </div>
+                <img class="Photoimg" src="../../../../assets/img/dd.jpg" alt="">
+                <div class="ContainerDescription">
+                    <div class="textN">Your name</div>
+                    <div class="name">Juan Narvaez
+                        <span class="EditName" data-testid="pencil" data-icon="pencil" class=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="rgb(87, 85, 85)" d="M3.95 16.7v3.4h3.4l9.8-9.9-3.4-3.4-9.8 9.9zm15.8-9.1c.4-.4.4-.9 0-1.3l-2.1-2.1c-.4-.4-.9-.4-1.3 0l-1.6 1.6 3.4 3.4 1.6-1.6z"></path></svg></span>
+                    </div>
+                </div>
+            </div>
+                <div class="tbLeftContainer">
+                    <div class="profileContainer">
+                        <img class="profile" src="../../../../assets/img/dd.jpg" alt="" srcset="" (click)="PerfilPhoto()">
+                    </div>
+                    <div class="leftRightIcons">
+                        <div class="statusContainer">
+                            <svg id="df9d3429-f0ef-48b5-b5eb-f9d27b2deba6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M12.072 1.761a10.05 10.05 0 0 0-9.303 5.65.977.977 0 0 0 1.756.855 8.098 8.098 0 0 1 7.496-4.553.977.977 0 1 0 .051-1.952zM1.926 13.64a10.052 10.052 0 0 0 7.461 7.925.977.977 0 0 0 .471-1.895 8.097 8.097 0 0 1-6.012-6.386.977.977 0 0 0-1.92.356zm13.729 7.454a10.053 10.053 0 0 0 6.201-8.946.976.976 0 1 0-1.951-.081v.014a8.097 8.097 0 0 1-4.997 7.209.977.977 0 0 0 .727 1.813l.02-.009z"></path><path fill="#009588" d="M19 1.5a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"></path></svg>
+                        </div>
+                        <div class="newChatContainer" (click)="addcontact()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M19.005 3.175H4.674C3.642 3.175 3 3.789 3 4.821V21.02l3.544-3.514h12.461c1.033 0 2.064-1.06 2.064-2.093V4.821c-.001-1.032-1.032-1.646-2.064-1.646zm-4.989 9.869H7.041V11.1h6.975v1.944zm3-4H7.041V7.1h9.975v1.944z"></path></svg>
+                        </div>
+                        <div class="leftMore" (click)="doLogout()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            
+            
+        </div>
+        
+        <app-search></app-search>
+
+        <div class="inboxChat">
+            
+            <app-inbox-chat *ngFor="let inbox of chats; let i = index" (click)="onSelectInbox(i)" [profilePic]="inbox.icon" [name]="inbox.title" [msgTime]="inbox.lastMsg" [msgPreview]="inbox.msgPreview" [isRead]="inbox.isRead" ></app-inbox-chat>
+        </div>
+    </div>
+    <div class="rightBigContainer">
+        <app-chat-area [title]="currentChat.title" [icon]="currentChat.icon" [msgs]="currentChat.msgs"></app-chat-area>
+    </div>
+</div>

@@ -1,0 +1,325 @@
+$bodyFont: sfProTextRegular;
+$titleFont: sfProTextMedium;
+
+@font-face {
+    font-family: sfProTextRegular;
+    src: url(/assets/fonts/SFProTextRegular.ttf);
+}
+
+@font-face {
+    font-family: sfProTextMedium;
+    src: url(/assets/fonts/SFProTextMedium.ttf);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    background: #E5DDD5;
+    font-family: $bodyFont;
+    .leftBigContainer {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 30%;
+        width: 100%;
+        height: 100%;
+
+        .addcontact{
+            position: absolute;
+            display: flex;
+            flex-basis: 30%;
+            flex-flow: column;
+            z-index: 10;
+            height: 100%;
+            width: 31%;
+            background-color:  #E5DDD5;
+            left: -100vh;
+            transition: all .3s ease;
+            border-right:  #c5beb7 solid 1px;
+
+            .goBackBtn{
+                width: 100%;
+                height: 100px;
+                font-size: 20px;
+                color: white;
+                font-family: sfProTextMedium;
+                padding-top: 15%;
+                padding-left: 20px;
+                margin-bottom: 1px;
+                background-color:  #00BFA5;
+                cursor: pointer;
+                
+                .backimg{
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 20px;
+                }
+            }
+            .añadirimg{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100px;
+                height: 100px;
+                margin-left: 38%;
+                margin-bottom: 20px;
+                margin-top: 20px;
+                background-color:  #00BFA5;
+                border-radius: 200px;
+                
+            }
+            .containerAdd{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-flow: column;
+                width: 100% !important;
+                .field{
+                    width: 85%;
+                    .input{
+                        border-radius: 30px;
+                    }
+                    
+                }
+                .addContactBtn {
+                    width: 46px;
+                    height: 46px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    align-self: center;
+                    background: #00BFA5;
+                    border-radius: 50%;
+                    box-shadow: 0 1px 3px rgba(black,.4);
+                    cursor: pointer;
+                }
+            }
+        }
+        .topBarLeft {
+            width: 100%;
+            height: 59px;
+            background: #EDEDED;
+            padding: 10px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .PerfilPhoto{
+                position: absolute;
+                display: flex;
+                flex-basis: 30%;
+                flex-flow: column;
+                z-index: 10;
+                top: 0px;
+                height: 100%;
+                width: 31%;
+                background-color:  #E5DDD5;
+                left: -100vh;
+                transition: all .3s ease;
+                border-right:  #c5beb7 solid 1px;
+                .goBackBtn2{
+                    width: 100%;
+                    height: 100px;
+                    font-size: 20px;
+                    color: white;
+                    font-family: sfProTextMedium;
+                    padding-top: 15%;
+                    padding-left: 20px;
+                    margin-bottom: 1px;
+                    background-color:  #00BFA5;
+                    cursor: pointer;
+                    
+                    .backimg2{
+                        width: 30px;
+                        height: 30px;
+                        margin-right: 20px;
+                    }
+                }
+                .Photoimg{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 200px;
+                    top: 0px;
+                    margin-top: 5%;
+                    margin-left: 25%;
+                }
+                .ContainerDescription{
+                    width: 100%;
+                    height: 100px;                    
+                    margin-top: 5%;
+                    margin-bottom: 1px;
+                    background-color:  white;
+                    cursor: pointer;
+                    .textN{
+                        font-size: 15px;
+                        color:  #00BFA5;
+                        font-family: sfProTextRegular;
+                        margin-left: 9%;
+                        margin-top: 10px;
+                    }
+                    .name{
+                        display: flex;
+                        flex-flow: row wrap;
+                        font-size: 17px;
+                        color:  rgb(87, 85, 85);
+                        font-family: sfProTextRegular;
+                        margin-left: 9%;
+                        margin-top: 10px;
+
+                        .EditName{
+                            align-items: right;
+                            justify-content: right;
+                        }
+                    }
+                }
+            }
+            .tbLeftContainer {
+                width: 100%;
+                height: 59px;
+                display: flex;
+                flex-flow: row wrap;
+                align-items: center;
+                justify-content: space-between;
+                .profileContainer {
+                    height: 40px;
+                    display: flex;
+                    flex-grow: 1;
+                    align-items: center;
+                    .profile {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                    }
+                }
+                .leftRightIcons {
+                    height: 40px;
+                    display: flex;
+                    flex-flow: row wrap;
+                    align-items: center;
+                    .statusContainer {
+                        width: 40px;
+                        height: 40px;
+                        padding: 8px;
+                        cursor: pointer;
+                        &:active {
+                            background: #D5D5D5;
+                            border-radius: 50%;
+                        }
+                    }
+                    .newChatContainer {
+                        width: 40px;
+                        height: 40px;
+                        margin: 0 0 0 10px;
+                        padding: 8px;
+                        cursor: pointer;
+                        &:active {
+                            background: #D5D5D5;
+                            border-radius: 50%;
+                        }
+                    }
+                    .leftMore {
+                        width: 40px;
+                        height: 40px;
+                        margin: 0 0 0 10px;
+                        padding: 8px;
+                        cursor: pointer;
+                        &:active {
+                            background: #D5D5D5;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .inboxChat {
+            width: 100%;
+            height: calc(100% - 108px);
+            background: white;
+            .inboxChat1 {
+                width: 100%;
+                height: 72px;
+                background: white;
+                display: flex;
+                cursor: pointer;
+                &:hover {
+                    background: #F5F5F5;
+                }
+                .profileInboxContainer {
+                    width: 77px;
+                    height: 72px;
+                    padding: 0 15px 0 13px;
+                    display: flex;
+                    align-items: center;
+                    .profileInbox {
+                        width: 49px;
+                        height: 49px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                    }
+                }
+                .inboxInfoContainer {
+                    height: 72px;
+                    padding: 0 15px 0 0;
+                    margin-right: 6px;
+                    display: flex;
+                    justify-content: center;
+                    flex-flow: column;
+                    flex-grow: 1;
+                    border-bottom: 1px solid rgba($color: #919191, $alpha: 0.2);
+                    .detailsContainer {
+                        display: flex;
+                        flex-flow: row wrap;
+                        .namePersonChat {
+                            font-size: 16px;
+                            color: black;
+                            flex-grow: 1;
+                            font-family: $titleFont;
+                            cursor: pointer;
+                        }
+                        .messageTime {
+                            font-size: 12px;
+                            color: #878787;
+                            font-family: $titleFont;
+                            cursor: pointer;
+                        }
+                    }
+                    .chatContainer {
+                        display: flex;
+                        flex-flow: row nowrap;
+                        .chatStatus{
+                            width: 18px;
+                            height: 18px;
+                            margin-right: 2px;
+                        }
+                        .chatPreview {
+                            font-size: 14px;
+                            color: #6F6F6F;
+                            font-family: $titleFont;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+    .rightBigContainer {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 70%;
+        width: 100%;
+        height: 100%;
+    }
+}
