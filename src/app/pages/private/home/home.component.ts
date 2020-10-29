@@ -1,36 +1,44 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { ChatService } from 'src/app/shared/services/chat/chat.service';
-import { ChatI } from './interfaces/ChatI';
-import { MessageI } from './interfaces/MessageI';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
+import { AuthService } from "src/app/shared/services/auth.service";
+import { ChatService } from "src/app/shared/services/chat/chat.service";
+import { ChatI } from "./interfaces/ChatI";
+import { MessageI } from "./interfaces/MessageI";
 import { RegisterService } from "src/app/shared/services/register.service";
-import { UserI } from 'src/app/shared/interfaces/UserI';
+import { UserI } from "src/app/shared/interfaces/UserI";
 // import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireAuth } from '@angular/fire/auth';
-import {  FormControl, FormGroup, NgForm, Validators, FormBuilder,} from "@angular/forms";
-import * as firebase from 'firebase';
-import { Router } from '@angular/router';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFireAuth } from "@angular/fire/auth";
+import {
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators,
+  FormBuilder,
+} from "@angular/forms";
+import * as firebase from "firebase";
+import { Router } from "@angular/router";
+import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  contactAdded: boolean = false;
 
   FormAdd = new FormGroup({
     Numbercontact: new FormControl(),
-    Namecontact: new FormControl()
+    Namecontact: new FormControl(),
   });
 
   subscriptionList: {
-    connection: Subscription,
-    msgs: Subscription
+    connection: Subscription;
+    msgs: Subscription;
   } = {
-      connection: undefined,
-      msgs: undefined
+    connection: undefined,
+    msgs: undefined,
   };
 
   chats: Array<ChatI> = [
@@ -41,9 +49,19 @@ export class HomeComponent implements OnInit, OnDestroy {
       msgPreview: "como gallinazo",
       lastMsg: "11:13",
       msgs: [
-        {content: "a lo que se mueva", isRead:true, isMe:true, time:"7:24"},
-        {content: "entonces ando de gallinazo", isRead:true, isMe:false, time:"7:25"},
-      ]
+        {
+          content: "a lo que se mueva",
+          isRead: true,
+          isMe: true,
+          time: "7:24",
+        },
+        {
+          content: "entonces ando de gallinazo",
+          isRead: true,
+          isMe: false,
+          time: "7:25",
+        },
+      ],
     },
     {
       title: "El traumado",
@@ -52,10 +70,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       msgPreview: "Suerte es que le deseo, haga eso pi**",
       lastMsg: "18:30",
       msgs: [
-        {content: "Suerte es que le deseo, haga eso pi**", isRead:true, isMe:true, time:"9:24"},
-        {content: "obligueme perro", isRead:true, isMe:false, time:"9:25"},
-      ]
-
+        {
+          content: "Suerte es que le deseo, haga eso pi**",
+          isRead: true,
+          isMe: true,
+          time: "9:24",
+        },
+        { content: "obligueme perro", isRead: true, isMe: false, time: "9:25" },
+      ],
     },
     {
       title: "Solos Pobres y FEOS",
@@ -63,7 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       isRead: true,
       msgPreview: "Nice front 😎",
       lastMsg: "23:30",
-      msgs: []
+      msgs: [],
     },
     {
       title: "El de la moto",
@@ -71,7 +93,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       isRead: true,
       msgPreview: " 😎",
       lastMsg: "3:30",
-      msgs: []
+      msgs: [],
     },
     {
       title: "El charlon",
@@ -79,60 +101,68 @@ export class HomeComponent implements OnInit, OnDestroy {
       isRead: true,
       msgPreview: " 😎",
       lastMsg: "8:30",
-      msgs: []
+      msgs: [],
     },
   ];
 
   currentChat = {
     title: "",
     icon: "",
-    msgs: []
+    msgs: [],
   };
 
-  constructor(public authService: AuthService, public chatService: ChatService, private firebaseAuth:AngularFireAuth, 
-    private registerService: RegisterService, private router: Router, private firebase: AngularFireDatabase) {}
+  constructor(
+    public authService: AuthService,
+    public chatService: ChatService,
+    private firebaseAuth: AngularFireAuth,
+    private registerService: RegisterService,
+    private router: Router,
+    private firebase: AngularFireDatabase,
+    private toastr: ToastrService
+  ) {}
 
-    registerList: UserI[];
-    register= [];
-    itemRef: any;
+  registerList: UserI[];
+  register = [];
+  itemRef: any;
 
-    ngOnInit(): void {
-      this.initChat();
-      this.UserAcount();
-      this.registerService.getRegister()
-      .snapshotChanges().subscribe(item => {
+  ngOnInit(): void {
+    this.initChat();
+    this.UserAcount();
+    this.registerService
+      .getRegister()
+      .snapshotChanges()
+      .subscribe((item) => {
         this.registerList = [];
-        item.forEach(element => {
+        item.forEach((element) => {
           let x = element.payload.toJSON();
           x["$key"] = element.key;
           this.registerList.push(x as UserI);
         });
       });
-    }
+  }
 
-    UserAcount (){
-      // var user = this.firebaseAuth.auth.currentUser;
-  
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-  
-          // User is signed in.
-          
-          if (user != null) {
-            user.providerData.forEach(function (profile) {
-              console.log("Sign-in provider: " + profile.providerId);
-              // console.log("  Provider-specific UID: " + profile.uid);
-              // console.log("  Name: " + profile.displayName);
-              console.log("  Email: " + profile.email);
-              // console.log("  Phone Number: " + profile.photoURL);
-            });
-          }
-          console.log(user);
-        } else {
-          // No user is signed in.
+  UserAcount() {
+    // var user = this.firebaseAuth.auth.currentUser;
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+
+        if (user != null) {
+          user.providerData.forEach(function (profile) {
+            console.log("Sign-in provider: " + profile.providerId);
+            // console.log("  Provider-specific UID: " + profile.uid);
+            // console.log("  Name: " + profile.displayName);
+            console.log("  Email: " + profile.email);
+            // console.log("  Phone Number: " + profile.photoURL);
+          });
         }
-      });
-    }
+        console.log(user);
+      } else {
+        // No user is signed in.
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     this.destroySubscriptionList();
@@ -145,24 +175,28 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentChat.icon = this.chats[0].icon;
       this.currentChat.msgs = this.chats[0].msgs;
     }
-    this.subscriptionList.connection = this.chatService.connect().subscribe(_ => {
-      console.log("Nos conectamos");
-      this.subscriptionList.msgs = this.chatService.getNewMsgs().subscribe((msg: MessageI) => {
-        msg.isMe = this.currentChat.title === msg.owner ? true : false;
-        this.currentChat.msgs.push(msg);
+    this.subscriptionList.connection = this.chatService
+      .connect()
+      .subscribe((_) => {
+        console.log("Nos conectamos");
+        this.subscriptionList.msgs = this.chatService
+          .getNewMsgs()
+          .subscribe((msg: MessageI) => {
+            msg.isMe = this.currentChat.title === msg.owner ? true : false;
+            this.currentChat.msgs.push(msg);
+          });
       });
-    });
   }
 
   onSelectInbox(index: number) {
     this.currentChat.title = this.chats[index].title;
-      this.currentChat.icon = this.chats[index].icon;
-      this.currentChat.msgs = this.chats[index].msgs;
+    this.currentChat.icon = this.chats[index].icon;
+    this.currentChat.msgs = this.chats[index].msgs;
   }
 
-  async  doLogout() {
+  async doLogout() {
     await this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(["/"]);
   }
 
   destroySubscriptionList(exceptList: string[] = []): void {
@@ -173,10 +207,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  addcontact(){
-    const query: string = '#app .addcontact';
+  addcontact() {
+    const query: string = "#app .addcontact";
     const addcontact: any = document.querySelector(query);
-    
+
     if (this.count == 0) {
       this.count = 1;
       addcontact.style.left = 0;
@@ -186,12 +220,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  count : number = 0;
+  count: number = 0;
 
-  PerfilPhoto(){
-    const query: string = '#app .PerfilPhoto';
+  PerfilPhoto() {
+    const query: string = "#app .PerfilPhoto";
     const PerfilPhoto: any = document.querySelector(query);
-    
+
     if (this.countPhoto == 0) {
       this.countPhoto = 1;
       PerfilPhoto.style.left = 0;
@@ -201,55 +235,128 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  countPhoto : number = 0;
-  
+  countPhoto: number = 0;
+
   async SendContact() {
-    
+    console.log(this.registerList);
     let Key;
     const ContactName = this.FormAdd.controls.Namecontact.value;
     let ContactNumber = this.FormAdd.controls.Numbercontact.value;
     const Email = firebase.auth().currentUser.email;
     let emailRegexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g);
-    let userExist;
 
-    await this.firebase.database.ref('registers').once('value', users => {
-      users.forEach(user => {
+    let userExist;
+    let addNumber;
+    let addEmail;
+
+    await this.firebase.database.ref("registers").once("value", (users) => {
+      users.forEach((user) => {
         const childKey = user.key;
         const childData = user.val();
         if (childData.email == Email) {
           Key = childKey;
           console.log("entramos", childKey);
+          console.log("recorrido", childKey);
+          user.forEach((info) => {
+            const infoChildKey = info.key;
+            console.log("info", infoChildKey);
+            info.forEach((contact) => {
+              const contactChildKey = contact.key;
+              console.log("contact", contactChildKey);
+              contact.forEach((Numbercontact) => {
+                const numberContactChildKey = Numbercontact.key;
+                const numberContactchildData = Numbercontact.val();
+                if (numberContactchildData == ContactNumber) {
+                  console.log("Ya lo tienes añadido");
+                  this.contactAdded = true;
+                }
+                console.log(
+                  "numberContact",
+                  numberContactChildKey,
+                  numberContactchildData
+                );
+              });
+            });
+          });
         }
-        console.log("recorrido", childKey);
       });
     });
+    
 
     if (ContactNumber.match(emailRegexp)) {
       // Es correo
-      // console.log("Es correo");
-      userExist = this.registerList.find(user => user.email == ContactNumber);
-      ContactNumber = userExist && userExist.email || undefined;
+      console.log("Es correo");
+      userExist = this.registerList.find((user) => user.email == ContactNumber);
+      addNumber = userExist.telefono.e164Number;      
+      ContactNumber = (userExist && userExist.email) || undefined;
+
       if (!userExist) {
-        console.log("Este usuario no existe")
-      } else {
-        console.log(ContactName, ContactNumber);
-        this.firebase.database.ref('registers').child(Key).child('contacts').push({
-          Namecontact: ContactName,
-          Numbercontact: ContactNumber,
+        this.toastr.error("The user dont exist", "Check your contacts", {
+          positionClass: "toast-top-center",
         });
+      } else {
+        if (!this.contactAdded) {
+          this.toastr.success(
+            "The phonenumber " + ContactNumber + " added",
+            "Added successfully",
+            {
+              positionClass: "toast-top-center",
+            }
+          );
+          this.firebase.database
+            .ref("registers")
+            .child(Key)
+            .child("contacts")
+            .push({
+              Namecontact: ContactName,
+              Numbercontact: ContactNumber,
+              contactEmail: ContactNumber,
+            });
+        } else {
+          this.toastr.error("The email already exist", "Check your contacts", {
+            positionClass: "toast-top-center",
+          });
+        }
       }
     } else {
-      // console.log("Es teléfono");
+      console.log("Es teléfono");
       // Es teléfono
-      userExist = this.registerList.find(user => user.telefono.e164Number == ContactNumber && user);
+      userExist = this.registerList.find(
+        (user) => user.telefono.e164Number == ContactNumber && user
+      );
+      addEmail = userExist.email;
       if (!userExist) {
-        console.log("Este usuario no existe")
-      } else {
-        console.log(ContactName, ContactNumber);
-        this.firebase.database.ref('registers').child(Key).child('contacts').push({
-          Namecontact: ContactName,
-          Numbercontact: ContactNumber,
+        this.toastr.error("The user dont exist ", "Error adding", {
+          positionClass: "toast-top-center",
         });
+      } else {
+        if (!this.contactAdded) {
+          console.log(ContactName, ContactNumber);
+          this.toastr.success(
+            "The phonenumber " + ContactNumber + " added",
+            "Added successfully",
+            {
+              positionClass: "toast-top-center",
+            }
+          );
+          this.firebase.database
+            .ref("registers")
+            .child(Key)
+            .child("contacts")
+            .push({
+              Namecontact: ContactName,
+              Numbercontact: ContactNumber,
+              contactEmail: addEmail,
+            });
+        } else {
+          this.toastr.error(
+            "The phonenumber already exist",
+            "Check your contacts",
+            {
+              positionClass: "toast-top-center",
+            }
+          );
+        }
       }
     }
 
@@ -259,9 +366,5 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  SearchAnim(){
-    
-  }
-  
-
+  SearchAnim() {}
 }

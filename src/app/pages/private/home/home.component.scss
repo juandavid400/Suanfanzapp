@@ -169,16 +169,18 @@ $titleFont: sfProTextMedium;
                     }
                     .name{
                         display: flex;
-                        flex-flow: row wrap;
+                        width: 60%;
+                        // flex-flow: row wrap;
                         font-size: 17px;
                         color:  rgb(87, 85, 85);
                         font-family: sfProTextRegular;
                         margin-left: 9%;
                         margin-top: 10px;
-
+                        outline: none;
+                        border-style: none;
                         .EditName{
-                            align-items: right;
-                            justify-content: right;
+                            display: flex;
+                            align-self: flex-end;
                         }
                     }
                 }

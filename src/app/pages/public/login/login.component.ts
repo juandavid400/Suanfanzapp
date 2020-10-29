@@ -88,7 +88,10 @@ export class LoginComponent implements OnInit {
         console.log(`Error [${errorCode}]: ${errorMessage}`);
       });
       } else {
-      alert("El usuario no existe");
+        console.log("Ya existe este email en tus contactos");
+        this.toastr.error('The email or the password are wrong', 'Error login', {
+        positionClass: 'toast-top-center'
+        });
         }  
     }
 }
