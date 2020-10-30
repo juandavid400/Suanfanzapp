@@ -165,6 +165,7 @@ export class RegisterComponent implements OnInit {
       this.toastr.success('Account registered', 'Login to your account', {
         positionClass: 'toast-top-center'
       });
+      
       this.registerService.insertRegister(this.ngForm.value);
       if (ConfirmPassword == Password) {
         firebase.auth().createUserWithEmailAndPassword(Email, Password).catch(function (error) {

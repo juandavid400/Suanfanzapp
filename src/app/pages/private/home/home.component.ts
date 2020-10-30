@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Directive,HostListener} from "@angular/core";
 import { Subscription } from "rxjs";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { ChatService } from "src/app/shared/services/chat/chat.service";
@@ -13,6 +13,9 @@ import * as firebase from "firebase";
 import { Router } from "@angular/router";
 import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
 import { ToastrService } from "ngx-toastr";
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: "app-home",
@@ -24,6 +27,50 @@ export class HomeComponent implements OnInit, OnDestroy {
   registerList: UserI[];
   register = [];
   itemRef: any;
+
+//---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
+  fileUrl: string;
+  ImgUrl:  string;
+
+  getUrl(event){
+    this.fileUrl = event;
+    console.log("URL recibida en padre: " + this.fileUrl);
+  }
+  getImg(event){
+    this.ImgUrl = event;
+    console.log("URL recibida en padre: " + this.ImgUrl);
+    this.SendImage();
+  }
+
+  async SendImage (){
+    console.log("ENTRE MANASO");
+
+    if(this.ImgUrl){
+      let Key;
+      const Email = firebase.auth().currentUser.email;
+      await this.firebase.database.ref("registers").once("value", (users) => {
+        users.forEach((user) => {
+          const childKey = user.key;
+          const childData = user.val();
+          if (childData.email == Email) {
+            Key = childKey;
+            console.log("entramos", childKey);
+            console.log("recorrido", childKey);
+          }
+                   
+        });
+      });
+      this.firebase.database.ref("registers").child(Key).child("Images").push({
+        ImgUrl: this.ImgUrl
+      });
+      
+      this.toastr.success('Submit successful', 'Image updated');
+    }
+  }
+
+ 
+
+//-----------------------------------------------------------------END DROP ZONE---------------------------------------  
 
   FormAdd = new FormGroup({
     Numbercontact: new FormControl(),
@@ -249,6 +296,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   countSett: number = 0;
 
+  
+
   async SendContact() {
     console.log(this.registerList);
     let Key;
@@ -260,6 +309,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     let userExist;
     let addNumber;
     let addEmail;
+
+    
+    
 
     await this.firebase.database.ref("registers").once("value", (users) => {
       users.forEach((user) => {
@@ -351,11 +403,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               positionClass: "toast-top-center",
             }
           );
-          this.firebase.database
-            .ref("registers")
-            .child(Key)
-            .child("contacts")
-            .push({
+          this.firebase.database.ref("registers").child(Key).child("contacts").push({
               Namecontact: ContactName,
               Numbercontact: ContactNumber,
               contactEmail: addEmail,

@@ -26,13 +26,15 @@ import { from } from 'rxjs';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthService } from './shared/services/auth.service';
 import { AngularFireAuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+// import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,    
+    RegisterComponent,
+    // FileUploadComponent,    
   ],
   imports: [
     BrowserModule,

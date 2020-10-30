@@ -182,6 +182,30 @@ $titleFont: sfProTextMedium;
                             display: flex;
                             align-self: flex-end;
                         }
+                        .dropzone {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-direction: column;
+                            min-width: 20vw;
+                            font-weight: 200;
+                            height: 300px;
+                            border: 2px dashed #ff0000;
+                            border-radius: 5px;
+                            background: white;
+                            margin: 10px 0;
+                          }
+                          .dropzone.hovering {
+                            border: 2px solid #00f839;
+                            color: #dadada !important;
+                          }
+                          .dropzone .file-label {
+                            font-size: 0.8em;
+                          }
+                          progress::-webkit-progress-value {
+                            transition: width 0.1s ease;
+                          }
+                            
                     }
                 }
             }

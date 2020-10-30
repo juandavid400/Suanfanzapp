@@ -6,7 +6,8 @@ import { ChatAreaComponent } from './components/chat-area/chat-area.component';
 import { ChatMessageComponent } from './components/chat-message/chat-message.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-
+import { FileUploadComponent } from '../../file-upload/file-upload.component';
+import { DropZoneDirective } from 'src/app/shared/services/drop-zone.directive';
 
 @NgModule({
   declarations: [
@@ -14,9 +15,11 @@ import { ToastrModule } from 'ngx-toastr';
     InboxChatComponent,
     ChatAreaComponent,
     ChatMessageComponent,
+    FileUploadComponent,        
+    DropZoneDirective,
   ],
   imports: [
-    CommonModule, FormsModule, ReactiveFormsModule,ToastrModule.forRoot({
+    CommonModule,  FormsModule, ReactiveFormsModule,ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-center',
       preventDuplicates: true,
