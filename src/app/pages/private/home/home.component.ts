@@ -24,13 +24,20 @@ import { finalize } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   contactAdded: boolean = false;
+  ImageSelected: string;
   registerList: UserI[];
   register = [];
   itemRef: any;
+  img = document.getElementById('img');
 
 //---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
   fileUrl: string;
   ImgUrl:  string;
+  file: any = {};
+
+  chooseFile(e){
+   this.file = e.target.files[0];
+  }
 
   getUrl(event){
     this.fileUrl = event;
@@ -40,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.ImgUrl = event;
     console.log("URL recibida en padre: " + this.ImgUrl);
     this.SendImage();
+    this.UpdatePerfilPhoto();
   }
 
   async SendImage (){
@@ -68,8 +76,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
- 
-
 //-----------------------------------------------------------------END DROP ZONE---------------------------------------  
 
   FormAdd = new FormGroup({
@@ -86,67 +92,67 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
 
   chats: Array<ChatI> = [
-    {
-      title: "El costeño",
-      icon: "/assets/img/ca.jpeg",
-      isRead: true,
-      msgPreview: "como gallinazo",
-      lastMsg: "11:13",
-      msgs: [
-        {
-          content: "a lo que se mueva",
-          isRead: true,
-          isMe: true,
-          time: "7:24",
-        },
-        {
-          content: "entonces ando de gallinazo",
-          isRead: true,
-          isMe: false,
-          time: "7:25",
-        },
-      ],
-    },
-    {
-      title: "El traumado",
-      icon: "/assets/img/tr.jpg",
-      isRead: true,
-      msgPreview: "Suerte es que le deseo, haga eso pi**",
-      lastMsg: "18:30",
-      msgs: [
-        {
-          content: "Suerte es que le deseo, haga eso pi**",
-          isRead: true,
-          isMe: true,
-          time: "9:24",
-        },
-        { content: "obligueme perro", isRead: true, isMe: false, time: "9:25" },
-      ],
-    },
-    {
-      title: "Solos Pobres y FEOS",
-      icon: "/assets/img/td.jpeg",
-      isRead: true,
-      msgPreview: "Nice front 😎",
-      lastMsg: "23:30",
-      msgs: [],
-    },
-    {
-      title: "El de la moto",
-      icon: "/assets/img/go.jpg",
-      isRead: true,
-      msgPreview: " 😎",
-      lastMsg: "3:30",
-      msgs: [],
-    },
-    {
-      title: "El charlon",
-      icon: "/assets/img/al.PNG",
-      isRead: true,
-      msgPreview: " 😎",
-      lastMsg: "8:30",
-      msgs: [],
-    },
+    // {
+    //   title: "El costeño",
+    //   icon: "/assets/img/ca.jpeg",
+    //   isRead: true,
+    //   msgPreview: "como gallinazo",
+    //   lastMsg: "11:13",
+    //   msgs: [
+    //     {
+    //       content: "a lo que se mueva",
+    //       isRead: true,
+    //       isMe: true,
+    //       time: "7:24",
+    //     },
+    //     {
+    //       content: "entonces ando de gallinazo",
+    //       isRead: true,
+    //       isMe: false,
+    //       time: "7:25",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "El traumado",
+    //   icon: "/assets/img/tr.jpg",
+    //   isRead: true,
+    //   msgPreview: "Suerte es que le deseo, haga eso pi**",
+    //   lastMsg: "18:30",
+    //   msgs: [
+    //     {
+    //       content: "Suerte es que le deseo, haga eso pi**",
+    //       isRead: true,
+    //       isMe: true,
+    //       time: "9:24",
+    //     },
+    //     { content: "obligueme perro", isRead: true, isMe: false, time: "9:25" },
+    //   ],
+    // },
+    // {
+    //   title: "Solos Pobres y FEOS",
+    //   icon: "/assets/img/td.jpeg",
+    //   isRead: true,
+    //   msgPreview: "Nice front 😎",
+    //   lastMsg: "23:30",
+    //   msgs: [],
+    // },
+    // {
+    //   title: "El de la moto",
+    //   icon: "/assets/img/go.jpg",
+    //   isRead: true,
+    //   msgPreview: " 😎",
+    //   lastMsg: "3:30",
+    //   msgs: [],
+    // },
+    // {
+    //   title: "El charlon",
+    //   icon: "/assets/img/al.PNG",
+    //   isRead: true,
+    //   msgPreview: " 😎",
+    //   lastMsg: "8:30",
+    //   msgs: [],
+    // },
   ];
 
   currentChat = {
@@ -295,8 +301,121 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   countSett: number = 0;
+//-----------------------------------------------------Update perfil photo----------------------------------------------
 
-  
+  async UpdatePerfilPhoto(){
+
+    let Key;
+    let ContactNumber = this.FormAdd.controls.Numbercontact.value;
+    const Email = firebase.auth().currentUser.email;
+
+
+//     await this.firebase.database.ref("registers").once("value", (users) => {
+//       users.forEach((user) => {
+//         const childKey = user.key;
+//         const childData = user.val();
+//  // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
+//         if (childData.email == Email) {
+//           Key = childKey;
+//           // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
+//           user.forEach((info) => {
+//             const infoChildKey = info.key;
+//             const infoChildData = info.val();
+//             // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
+//             info.forEach((Images) => {
+//               const imagesChildKey = Images.key;
+//               const imagesChilData = Images.val();
+//               // SEGUNDA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
+//               Images.forEach((ImgUrl) => {
+//                 const ImagesChildKey = ImgUrl.key;
+//                 const ImagesChildData = ImgUrl.val();
+//                 const filter = /https:/gm;
+
+//                 if (ImagesChildData.match(filter)){
+//                   this.ImageSelected = ImagesChildData;
+//                 }
+//               });
+//             });
+//           });
+//         }
+//       });
+//     });
+
+    const query: string = "#app .Photoimg";
+    const Photoimg: any = document.querySelector(query);
+    Photoimg.style.src = this.ImageSelected;
+
+    // firebase.auth().onAuthStateChanged(user =>{
+    //   if (user{
+    //     firebase.storage().ref('users/' + user.uid + '/profile.jpg').getDownloadURL().then(imgUrl =>{
+    //       img.src = imgUrl;
+    //     }); 
+    //   });
+    // });
+  }
+  //-----------------------------------------------------End Update perfil photo----------------------------------------------
+  //-----------------------------------------------------Search IMg----------------------------------------------
+
+  async SearchImg(){
+
+    let Key;
+    let ContactNumber = this.FormAdd.controls.Numbercontact.value;
+
+
+    await this.firebase.database.ref("registers").once("value", (users) => {
+      users.forEach((user) => {
+        const childKey = user.key;
+        const childData = user.val();
+ // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
+        if (childData.email == ContactNumber) {
+          Key = childKey;
+          console.log("entramos", childKey);
+          console.log("recorrido", childKey);
+          // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
+          user.forEach((info) => {
+            const infoChildKey = info.key;
+            const infoChildData = info.val();
+            console.log("info", infoChildKey);
+            console.log("info", infoChildData);
+            // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
+            info.forEach((Images) => {
+              const imagesChildKey = Images.key;
+              const imagesChilData = Images.val();
+              console.log("Images", imagesChildKey);
+              console.log("YIPETAAAAAAA", imagesChilData);
+              // SEGUNDA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
+              Images.forEach((ImgUrl) => {
+                const ImagesChildKey = ImgUrl.key;
+                const ImagesChildData = ImgUrl.val();
+                const filter = /https:/gm;
+
+                if (ImagesChildData.match(filter)){
+                  this.ImageSelected = ImagesChildData;
+                }
+                
+                console.log("ImagesChildData");
+                console.log(ImagesChildData);
+                console.log("ImageSelectde");
+                console.log(this.ImageSelected);
+                
+
+                console.log(
+                  "ImgURL",
+                  ImagesChildKey,
+                  ImagesChildData
+                );
+              });
+            });
+          });
+        }
+      });
+    });
+
+    
+    return this.ImageSelected;
+  }
+  //-----------------------------------------------------ENd Search IMg----------------------------------------------
+  //-----------------------------------------------------Send Contact----------------------------------------------
 
   async SendContact() {
     console.log(this.registerList);
@@ -309,7 +428,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     let userExist;
     let addNumber;
     let addEmail;
-
+    let addPhoto;
     
     
 
@@ -317,16 +436,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       users.forEach((user) => {
         const childKey = user.key;
         const childData = user.val();
+ // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
         if (childData.email == Email) {
           Key = childKey;
           console.log("entramos", childKey);
           console.log("recorrido", childKey);
+          // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
             const infoChildKey = info.key;
+            const infoChildData = info.val();
             console.log("info", infoChildKey);
+            // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
             info.forEach((contact) => {
               const contactChildKey = contact.key;
               console.log("contact", contactChildKey);
+              // TERCERA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
               contact.forEach((Numbercontact) => {
                 const numberContactChildKey = Numbercontact.key;
                 const numberContactchildData = Numbercontact.val();
@@ -346,35 +470,49 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
     });
     
+    
 
     if (ContactNumber.match(emailRegexp)) {
       // Es correo
       console.log("Es correo");
       userExist = this.registerList.find((user) => user.email == ContactNumber);
-      addNumber = userExist.telefono.e164Number;      
+      addNumber = userExist.telefono.e164Number;
+      // addPhoto = userExist.Images.$key.ImgUrl;
+      // console.log("FOTOOOOOOOOOOO") ;
+      // console.log(addPhoto) ;     
       ContactNumber = (userExist && userExist.email) || undefined;
 
       if (!userExist) {
-        this.toastr.error("The user dont exist", "Check your contacts", {
+        this.toastr.error("The user dont exist", "Check the email", {
           positionClass: "toast-top-center",
         });
       } else {
         if (!this.contactAdded) {
+          this.SearchImg();
           this.toastr.success(
-            "The phonenumber " + ContactNumber + " added",
+            "The user " + ContactName + " i was added",
             "Added successfully",
             {
               positionClass: "toast-top-center",
             }
           );
-          this.firebase.database
-            .ref("registers")
-            .child(Key)
-            .child("contacts")
-            .push({
+          this.firebase.database.ref("registers").child(Key).child("contacts").push({
               Namecontact: ContactName,
-              Numbercontact: ContactNumber,
+              Numbercontact: addNumber,
               contactEmail: ContactNumber,
+            });
+
+
+            this.chats.push({
+              title: ContactName,
+              icon: this.ImageSelected,
+              isRead: false,
+              msgPreview: "Entonces ando usando fotos reales hahaha",
+              lastMsg: "11:13",
+              msgs: [
+                { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
+                { content: "Qué?", isRead: true, isMe: false, time: "7:25" },
+              ]
             });
         } else {
           this.toastr.error("The email already exist", "Check your contacts", {
@@ -385,9 +523,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       console.log("Es teléfono");
       // Es teléfono
-      userExist = this.registerList.find(
-        (user) => user.telefono.e164Number == ContactNumber && user
-      );
+      userExist = this.registerList.find((user) => user.telefono.e164Number == ContactNumber && user);
       addEmail = userExist.email;
       if (!userExist) {
         this.toastr.error("The user dont exist ", "Error adding", {
@@ -395,6 +531,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
       } else {
         if (!this.contactAdded) {
+          this.SearchImg();
           console.log(ContactName, ContactNumber);
           this.toastr.success(
             "The phonenumber " + ContactNumber + " added",
@@ -407,6 +544,18 @@ export class HomeComponent implements OnInit, OnDestroy {
               Namecontact: ContactName,
               Numbercontact: ContactNumber,
               contactEmail: addEmail,
+            });
+
+            this.chats.push({
+              title: ContactName,
+              icon: this.ImageSelected,
+              isRead: false,
+              msgPreview: "Entonces ando usando fotos reales hahaha",
+              lastMsg: "11:13",
+              msgs: [
+                { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
+                { content: "Qué?", isRead: true, isMe: false, time: "7:25" },
+              ]
             });
         } else {
           this.toastr.error(
@@ -425,6 +574,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       Numbercontact: "",
     });
   }
+  //-----------------------------------------------------End Send Contact----------------------------------------------
 
   SearchAnim() {}
 }

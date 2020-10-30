@@ -27,7 +27,7 @@
                           </span>
                         </p>
                       </div>
-                    <div type="submit" class="addContactBtn" (click)="SendContact()">
+                    <div type="submit" class="addContactBtn" (click)="SendContact() ">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="#ffffff" d="M8 17.1l-5.2-5.2-1.7 1.7 6.9 7L22.9 5.7 21.2 4 8 17.1z"></path>
                         </svg>
@@ -46,7 +46,7 @@
                     Profile
                 </div>
                 <app-file-upload  (imgUrlEmitter)="getImg($event)"></app-file-upload>  
-                <img class="Photoimg" src="../../../../assets/img/dd.jpg" alt="">
+                <img class="Photoimg" src="../../../../assets/img/WPphoto.jpg" alt="" id="img">
                 <div class="ContainerDescription">
                     <div class="textN">Your name</div>
                     <input  class="name" type="text"  placeholder="Juan Narvaez" > 
@@ -59,7 +59,7 @@
             </div>
                 <div class="tbLeftContainer">
                     <div class="profileContainer">
-                        <img class="profile" src="../../../../assets/img/dd.jpg" alt="" srcset="" (click)="PerfilPhoto()">
+                        <img class="profile" src="../../../../assets/img/WPphoto.jpg" alt="" srcset="" (click)="PerfilPhoto()">
                     </div>
                     <div class="leftRightIcons">
                         <div class="statusContainer">
@@ -81,8 +81,8 @@
                                 </li>
                                 <li  class="Settings">
                                     <div class="desplegable"  title="Settings">Settings</div>
-                                </li><li  class="Logout" (click)="doLogout">
-                                    <div class="desplegable"  title="Log out">Log out</div>
+                                </li><li  class="Logout" >
+                                    <div class="desplegable"  (click)="doLogout()" title="Log out">Logout</div>
                                 </li>
                         </ul>
                     </div>

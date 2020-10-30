@@ -80,8 +80,11 @@ export class LoginComponent implements OnInit {
         this.toastr.success('Login successful', 'Login acount', {
           positionClass: 'toast-top-center'
         });
-      }).catch(function (error) {
+      }).catch((error) => {
         // Handle Errors here.
+        this.toastr.error('The password are incorrect', 'Error login', {
+          positionClass: 'toast-top-center'
+          });
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
@@ -89,7 +92,7 @@ export class LoginComponent implements OnInit {
       });
       } else {
         console.log("Ya existe este email en tus contactos");
-        this.toastr.error('The email or the password are wrong', 'Error login', {
+        this.toastr.error('The email or the password are incorrect', 'Error login', {
         positionClass: 'toast-top-center'
         });
         }  
