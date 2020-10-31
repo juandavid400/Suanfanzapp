@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { FileUploadComponent } from '../../file-upload/file-upload.component';
 import { DropZoneDirective } from 'src/app/shared/services/drop-zone.directive';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { DropZoneDirective } from 'src/app/shared/services/drop-zone.directive';
     DropZoneDirective,
   ],
   imports: [
-    CommonModule,  FormsModule, ReactiveFormsModule,ToastrModule.forRoot({
+    CommonModule,  FormsModule, AngularFireAuthModule, ReactiveFormsModule,ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-center',
       preventDuplicates: true,

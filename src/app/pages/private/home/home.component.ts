@@ -28,26 +28,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   registerList: UserI[];
   register = [];
   itemRef: any;
-  img = document.getElementById('img');
 
 //---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
   fileUrl: string;
   ImgUrl:  string;
-  file: any = {};
-
-  chooseFile(e){
-   this.file = e.target.files[0];
-  }
 
   getUrl(event){
     this.fileUrl = event;
     console.log("URL recibida en padre: " + this.fileUrl);
   }
-  getImg(event){
+  async getImg(event){
     this.ImgUrl = event;
     console.log("URL recibida en padre: " + this.ImgUrl);
-    this.SendImage();
-    this.UpdatePerfilPhoto();
+   await this.SendImage();
+   await this.UpdatePerfilPhoto();
   }
 
   async SendImage (){
@@ -310,48 +304,43 @@ export class HomeComponent implements OnInit, OnDestroy {
     const Email = firebase.auth().currentUser.email;
 
 
-//     await this.firebase.database.ref("registers").once("value", (users) => {
-//       users.forEach((user) => {
-//         const childKey = user.key;
-//         const childData = user.val();
-//  // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
-//         if (childData.email == Email) {
-//           Key = childKey;
-//           // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
-//           user.forEach((info) => {
-//             const infoChildKey = info.key;
-//             const infoChildData = info.val();
-//             // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
-//             info.forEach((Images) => {
-//               const imagesChildKey = Images.key;
-//               const imagesChilData = Images.val();
-//               // SEGUNDA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
-//               Images.forEach((ImgUrl) => {
-//                 const ImagesChildKey = ImgUrl.key;
-//                 const ImagesChildData = ImgUrl.val();
-//                 const filter = /https:/gm;
+    await this.firebase.database.ref("registers").once("value", (users) => {
+      users.forEach((user) => {
+        const childKey = user.key;
+        const childData = user.val();
+ // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
+        if (childData.email == Email) {
+          Key = childKey;
+          // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
+          user.forEach((info) => {
+            const infoChildKey = info.key;
+            const infoChildData = info.val();
+            // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
+            info.forEach((Images) => {
+              const imagesChildKey = Images.key;
+              const imagesChilData = Images.val();
+              // SEGUNDA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
+              Images.forEach((ImgUrl) => {
+                const ImagesChildKey = ImgUrl.key;
+                const ImagesChildData = ImgUrl.val();
+                const filter = /https:/gm;
 
-//                 if (ImagesChildData.match(filter)){
-//                   this.ImageSelected = ImagesChildData;
-//                 }
-//               });
-//             });
-//           });
-//         }
-//       });
-//     });
+                if (ImagesChildData.match(filter)){
+                  this.ImageSelected = ImagesChildData;
+                }
+              });
+            });
+          });
+        }
+      });
+    });
 
     const query: string = "#app .Photoimg";
     const Photoimg: any = document.querySelector(query);
-    Photoimg.style.src = this.ImageSelected;
-
-    // firebase.auth().onAuthStateChanged(user =>{
-    //   if (user{
-    //     firebase.storage().ref('users/' + user.uid + '/profile.jpg').getDownloadURL().then(imgUrl =>{
-    //       img.src = imgUrl;
-    //     }); 
-    //   });
-    // });
+    const query2: string = "#app .profile";
+    const profile: any = document.querySelector(query2);
+    Photoimg.src = this.ImageSelected;
+    profile.src = this.ImageSelected;
   }
   //-----------------------------------------------------End Update perfil photo----------------------------------------------
   //-----------------------------------------------------Search IMg----------------------------------------------
