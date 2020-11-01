@@ -24,6 +24,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   contactAdded: boolean = false;
+  AddToGroup: boolean = false;
   ImageSelected: string;
   registerList: UserI[];
   register = [];
@@ -75,6 +76,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   FormAdd = new FormGroup({
     Numbercontact: new FormControl(),
     Namecontact: new FormControl(),
+  });
+
+  FormNewGroup = new FormGroup({
+    NameGroupContact: new FormControl()
   });
 
   subscriptionList: {
@@ -295,6 +300,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   countSett: number = 0;
+
+  createGroup() {
+    const query: string = "#app .newGroupContainer";
+    const newGroupContainer: any = document.querySelector(query);
+
+    if (this.countGroup == 0) {
+      this.countGroup = 1;
+      newGroupContainer.style.left = 0;
+    } else {
+      this.countGroup = 0;
+      newGroupContainer.style.left = "-100vh";
+    }
+  }
+
+  countGroup: number = 0;
 //-----------------------------------------------------Update perfil photo----------------------------------------------
 
   async UpdatePerfilPhoto(){
@@ -416,10 +436,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     let userExist;
     let addNumber;
-    let addEmail;
-    let addPhoto;
-    
-    
+    let addEmail;  
 
     await this.firebase.database.ref("registers").once("value", (users) => {
       users.forEach((user) => {
@@ -459,16 +476,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
     });
     
-    
 
     if (ContactNumber.match(emailRegexp)) {
       // Es correo
       console.log("Es correo");
       userExist = this.registerList.find((user) => user.email == ContactNumber);
       addNumber = userExist.telefono.e164Number;
-      // addPhoto = userExist.Images.$key.ImgUrl;
-      // console.log("FOTOOOOOOOOOOO") ;
-      // console.log(addPhoto) ;     
+        
       ContactNumber = (userExist && userExist.email) || undefined;
 
       if (!userExist) {
@@ -479,7 +493,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (!this.contactAdded) {
           this.SearchImg();
           this.toastr.success(
-            "The user " + ContactName + " i was added",
+            "The user " + ContactName + " was added",
             "Added successfully",
             {
               positionClass: "toast-top-center",
@@ -496,7 +510,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               title: ContactName,
               icon: this.ImageSelected,
               isRead: false,
-              msgPreview: "Entonces ando usando fotos reales hahaha",
+              msgPreview: "Melosqui melosqui",
               lastMsg: "11:13",
               msgs: [
                 { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
@@ -539,7 +553,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               title: ContactName,
               icon: this.ImageSelected,
               isRead: false,
-              msgPreview: "Entonces ando usando fotos reales hahaha",
+              msgPreview: "Melosqui melosqui",
               lastMsg: "11:13",
               msgs: [
                 { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
@@ -564,6 +578,133 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
   //-----------------------------------------------------End Send Contact----------------------------------------------
+  //-----------------------------------------------------Group chat----------------------------------------------
+  async SendGroup(){
+    let Key;
+    let NameGroupContact = this.FormNewGroup.controls.NameGroupContact.value;
+    const Email = firebase.auth().currentUser.email;
+    let emailRegexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g);
+
+    let userExist;
+    let addNumber;
+    let addEmail;
+    let addName;
+
+    await this.firebase.database.ref("registers").once("value", (users) => {
+      users.forEach((user) => {
+        const childKey = user.key;
+        const childData = user.val();
+ // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
+        if (childData.email == Email) {
+          Key = childKey;
+          console.log("entramos", childKey);
+          console.log("recorrido", childKey);
+          // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
+          user.forEach((info) => {
+            const infoChildKey = info.key;
+            console.log("info", infoChildKey);
+            // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
+            info.forEach((contact) => {
+              const contactChildKey = contact.key;
+              console.log("contact", contactChildKey);
+              // TERCERA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
+              contact.forEach((Numbercontact) => {
+                const numberContactChildKey = Numbercontact.key;
+                const numberContactchildData = Numbercontact.val();
+                if (numberContactchildData == NameGroupContact) {
+                  this.AddToGroup = true;
+                }
+                console.log(this.AddToGroup);
+                console.log(
+                  "numberContact",
+                  numberContactChildKey,
+                  numberContactchildData
+                );
+              });
+            });
+          });
+        }
+      });
+    });
+
+    if (NameGroupContact.match(emailRegexp)) {
+      // Es correo
+      console.log("Es correo");
+      userExist = this.registerList.find((user) => user.email == NameGroupContact);
+      addNumber = userExist.telefono.e164Number;
+      addName = userExist.name+ " " + userExist.lname;
+        
+      NameGroupContact = (userExist && userExist.email) || undefined;
+
+      if (!userExist) {
+        this.toastr.error("The user dont exist", "Check the email", {
+          positionClass: "toast-top-center",
+        });
+      } else {
+        if (this.AddToGroup) {
+          this.SearchImg();
+          this.toastr.success(
+            "The user was " + addName + " added to the group",
+            "Added successfully",
+            {
+              positionClass: "toast-top-center",
+            }
+          );
+          this.firebase.database.ref("registers").child(Key).child("group").push({
+              Namecontact: addName,
+              Numbercontact: addNumber,
+              contactEmail: NameGroupContact,
+            });
+
+        } else {
+          this.toastr.error("The email dont exist in your contacts", "Check your contacts", {
+            positionClass: "toast-top-center",
+          });
+        }
+      }
+    } else {
+      console.log("Es teléfono");
+      // Es teléfono
+      userExist = this.registerList.find((user) => user.telefono.e164Number == NameGroupContact && user);
+      addEmail = userExist.email;
+      addName = userExist.name+ " " + userExist.lname;
+
+      if (!userExist) {
+        this.toastr.error("The user dont exist", "Error adding", {
+          positionClass: "toast-top-center",
+        });
+      } else {
+        if (this.AddToGroup) {
+          this.SearchImg();
+          this.toastr.success(
+            "The user was " + addName + " added to the group",
+            "Added successfully",
+            {
+              positionClass: "toast-top-center",
+            }
+          );
+          this.firebase.database.ref("registers").child(Key).child("group").push({
+            Namecontact: addName,
+            Numbercontact: NameGroupContact,
+            contactEmail: addEmail,
+          });
+
+        } else {
+          this.toastr.error(
+            "The user dont exist",
+            "Check your contacts",
+            {
+              positionClass: "toast-top-center",
+            }
+          );
+        }
+      }
+    }
+
+    this.FormNewGroup.reset({
+      NameGroupContact: ""
+    });
+  }
 
   SearchAnim() {}
 }
