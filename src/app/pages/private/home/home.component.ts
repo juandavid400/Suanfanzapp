@@ -16,6 +16,8 @@ import { ToastrService } from "ngx-toastr";
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { Key } from 'protractor';
+import { error } from 'console';
 
 @Component({
   selector: "app-home",
@@ -27,6 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   AddToGroup: boolean = false;
   ImageSelected: string;
   registerList: UserI[];
+  Currentimg: string;
   register = [];
   itemRef: any;
 
@@ -172,9 +175,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   
 
-  ngOnInit(): void {
-    this.initChat();
+  async ngOnInit(){
     this.UserAcount();
+
     this.registerService
       .getRegister()
       .snapshotChanges()
@@ -184,9 +187,14 @@ export class HomeComponent implements OnInit, OnDestroy {
           let x = element.payload.toJSON();
           x["$key"] = element.key;
           this.registerList.push(x as UserI);
-        });
+          
+        });        
       });
+     await this.PrintConsistance();
+     await this.UpdatePerfilPhoto();
   }
+
+  
 
   UserAcount() {
     // var user = this.firebaseAuth.auth.currentUser;
@@ -320,34 +328,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   async UpdatePerfilPhoto(){
 
     let Key;
-    let ContactNumber = this.FormAdd.controls.Numbercontact.value;
     const Email = firebase.auth().currentUser.email;
-
-
     await this.firebase.database.ref("registers").once("value", (users) => {
       users.forEach((user) => {
         const childKey = user.key;
-        const childData = user.val();
- // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
+        const childData = user.val();     
         if (childData.email == Email) {
           Key = childKey;
-          // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
-            const infoChildKey = info.key;
-            const infoChildData = info.val();
-            // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
             info.forEach((Images) => {
-              const imagesChildKey = Images.key;
-              const imagesChilData = Images.val();
-              // SEGUNDA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
               Images.forEach((ImgUrl) => {
                 const ImagesChildKey = ImgUrl.key;
                 const ImagesChildData = ImgUrl.val();
                 const filter = /https:/gm;
 
-                if (ImagesChildData.match(filter)){
-                  this.ImageSelected = ImagesChildData;
-                }
+                if (ImagesChildKey == "ImgUrl"){
+                  this.Currentimg = ImagesChildData;
+                } 
               });
             });
           });
@@ -355,12 +352,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
     });
 
-    const query: string = "#app .Photoimg";
-    const Photoimg: any = document.querySelector(query);
-    const query2: string = "#app .profile";
-    const profile: any = document.querySelector(query2);
-    Photoimg.src = this.ImageSelected;
-    profile.src = this.ImageSelected;
+    if(!this.Currentimg) {
+      this.Currentimg = "../../../../assets/img/Noimage.jpg";
+      const query: string = "#app .Photoimg";
+      const Photoimg: any = document.querySelector(query);
+      const query2: string = "#app .profile";
+      const profile: any = document.querySelector(query2);
+      Photoimg.src = this.Currentimg;
+      profile.src = this.Currentimg;
+    } else {
+      const query: string = "#app .Photoimg";
+      const Photoimg: any = document.querySelector(query);
+      const query2: string = "#app .profile";
+      const profile: any = document.querySelector(query2);
+      Photoimg.src = this.Currentimg;
+      profile.src = this.Currentimg;      
+    }
+    
   }
   //-----------------------------------------------------End Update perfil photo----------------------------------------------
   //-----------------------------------------------------Search IMg----------------------------------------------
@@ -376,7 +384,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         const childKey = user.key;
         const childData = user.val();
  // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
-        if (childData.email == ContactNumber) {
+        if (childData.email == ContactNumber || childData.telefono.e164Number == ContactNumber) {
           Key = childKey;
           console.log("entramos", childKey);
           console.log("recorrido", childKey);
@@ -402,37 +410,24 @@ export class HomeComponent implements OnInit, OnDestroy {
                   this.ImageSelected = ImagesChildData;
                 }
                 
-                console.log("ImagesChildData");
-                console.log(ImagesChildData);
-                console.log("ImageSelectde");
-                console.log(this.ImageSelected);
-                
-
-                console.log(
-                  "ImgURL",
-                  ImagesChildKey,
-                  ImagesChildData
-                );
               });
             });
           });
         }
       });
     });
-
-    
     return this.ImageSelected;
   }
   //-----------------------------------------------------ENd Search IMg----------------------------------------------
   //-----------------------------------------------------Send Contact----------------------------------------------
 
   async SendContact() {
-    console.log(this.registerList);
     let Key;
     const ContactName = this.FormAdd.controls.Namecontact.value;
     let ContactNumber = this.FormAdd.controls.Numbercontact.value;
     const Email = firebase.auth().currentUser.email;
-    let emailRegexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g);
+    let emailRegexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g);    
+    this.ImageSelected = "../../../../assets/img/Noimage.jpg"; 
 
     let userExist;
     let addNumber;
@@ -481,8 +476,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       // Es correo
       console.log("Es correo");
       userExist = this.registerList.find((user) => user.email == ContactNumber);
-      addNumber = userExist.telefono.e164Number;
-        
+      addNumber = userExist.telefono.e164Number; 
       ContactNumber = (userExist && userExist.email) || undefined;
 
       if (!userExist) {
@@ -491,7 +485,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
       } else {
         if (!this.contactAdded) {
-          this.SearchImg();
+           this.SearchImg();
+          
+          
           this.toastr.success(
             "The user " + ContactName + " was added",
             "Added successfully",
@@ -505,18 +501,22 @@ export class HomeComponent implements OnInit, OnDestroy {
               contactEmail: ContactNumber,
             });
 
-
-            this.chats.push({
-              title: ContactName,
-              icon: this.ImageSelected,
-              isRead: false,
-              msgPreview: "Melosqui melosqui",
-              lastMsg: "11:13",
-              msgs: [
-                { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
-                { content: "Qué?", isRead: true, isMe: false, time: "7:25" },
-              ]
-            });
+            // creamos su inbox-chat
+          this.chats.push({
+            title: ContactName,
+            icon: this.ImageSelected,
+            isRead: false,
+            msgPreview: "Entonces ando usando fotos reales hahaha",
+            lastMsg: "11:13",
+            msgs: [
+              { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
+              { content: "Qué?", isRead: true, isMe: false, time: "7:25" },
+            ]
+          });
+          let chatsSize = this.chats.length - 1;
+          this.firebase.database.ref('registers').child(Key).child('chatRooms').push({
+            chats: this.chats[chatsSize],
+          });
         } else {
           this.toastr.error("The email already exist", "Check your contacts", {
             positionClass: "toast-top-center",
@@ -535,6 +535,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       } else {
         if (!this.contactAdded) {
           this.SearchImg();
+          
           console.log(ContactName, ContactNumber);
           this.toastr.success(
             "The phonenumber " + ContactNumber + " added",
@@ -689,6 +690,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             contactEmail: addEmail,
           });
 
+          
+
         } else {
           this.toastr.error(
             "The user dont exist",
@@ -704,6 +707,40 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.FormNewGroup.reset({
       NameGroupContact: ""
     });
+  }
+
+  async PrintConsistance(){ 
+    let Key;
+    const Email = firebase.auth().currentUser.email;
+
+    await this.firebase.database.ref('registers').once('value', users => {
+      users.forEach(user => {
+        const childKey = user.key;
+        const childData = user.val();
+        if (childData.email == Email) {
+          Key = childKey;
+          console.log("entramosCargaChat", childKey);
+          console.log("recorridoCargaChat", childKey);
+          user.forEach(info => {
+            const infoChildKey = info.key;
+            console.log("infoCargaChat", infoChildKey);
+            if (infoChildKey == 'chatRooms') {
+              info.forEach(chatRooms => {
+                const contactChildKey = chatRooms.key;
+                console.log("contactCargaChat", contactChildKey);
+                chatRooms.forEach(chats => {
+                  const chatContactChildKey = chats.key;
+                  const chatContactChildData = chats.val();
+                  console.log("chats", chatContactChildData);
+                  this.chats.push(chatContactChildData);
+                });
+              });
+            }
+          });
+        }
+      });
+    });
+    this.initChat();   
   }
 
   SearchAnim() {}
