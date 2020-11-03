@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   register = [];
   itemRef: any;
   Activechat: any;
+  Addinfo: string;
 
 //---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
   fileUrl: string;
@@ -193,7 +194,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
      await this.PrintConsistance();
      await this.UpdatePerfilPhoto();
-    //  await this.RecorrerListaSocket();
      await this.WhoIsWritingMe();
   }
 
@@ -265,20 +265,30 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  addcontact() {
+  addcontact(count: number) {
     const query: string = "#app .addcontact";
     const addcontact: any = document.querySelector(query);
 
-    if (this.count == 0) {
-      this.count = 1;
+    if (count == 0) {
+      count = 1;
       addcontact.style.left = 0;
     } else {
-      this.count = 0;
+      count = 0;
       addcontact.style.left = "-100vh";
     }
   }
 
-  count: number = 0;
+  openaddContact(){
+    if (this.count == 0){
+      this.count = 1;
+      this.addcontact(this.count);
+    } else {      
+      this.count = 0;
+      this.addcontact(this.count);
+    }
+  }
+
+  count: number = 1;
 
   PerfilPhoto() {
     const query: string = "#app .PerfilPhoto";
@@ -734,60 +744,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.initChat();   
   }
 
-  async RecorrerListaSocket(){
-    let Key;
-    let userExist;
-    let LastMsg;
-    let MesgPreview;
-    let Msgs;
-    const Email = firebase.auth().currentUser.email;
-
-    await this.firebase.database.ref("registers").once("value", (users) => {
-      users.forEach((user) => {
-        const childKey = user.key;
-        const childData = user.val();      
-        if (childData.email == Email) {
-          Key = childKey;
-          user.forEach((info) => {
-            info.forEach((chatRooms) => {
-              chatRooms.forEach((EmailChat) => {
-                const numberContactChildKey = EmailChat.key;
-                const numberContactchildData = EmailChat.val();
-                if (numberContactChildKey == "email") {
-                  
-                  this.subscriptionList.msgs=this.chatService.paraRenderizarMensaje().subscribe((msg: MessageI) => {
-                    userExist = this.chats.find((user) => user.email == msg.from);
-                    if (userExist) {                      
-                      console.log("Segundo IF y meto nuevo mensage")
-                      console.log("ya exite el contacto")
-                      LastMsg = userExist.lastMsg;
-                      MesgPreview = userExist.msgPreview;
-                      Msgs = userExist.msgs;
-                      LastMsg = msg.content;
-                      MesgPreview = msg.time;
-                      msg.isMe = this.currentChat.title === msg.owner ? true : false;
-                      Msgs.push(msg);
-                      }else{
-                        console.log("Entro al Elsey creo nuevo contacto")
-                        console.log("Nuevo contacto");
-                        this.cargandoContactos(msg);
-                        }
-                  });
-                  
-                }
-                console.log(
-                  "numberContact",
-                  numberContactChildKey,
-                  numberContactchildData
-                );
-              });
-            });
-          });
-        }
-      });
-    });
-  }
-
+ 
   WhoIsWritingMe(){
     console.log("Entre a la funcion renderizar");
     this.subscriptionList.msgs=this.chatService.paraRenderizarMensaje().subscribe((msg: MessageI) => {
@@ -808,6 +765,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           msg.isMe = this.currentChat.title === msg.owner ? true : false;
           this.chats[i].msgs.push(msg);
           }else{
+            this.countPop = 0;
+            this.ConfirmPopUp(this.countPop);
             console.log("Entre al else")
             let f=i
             f++
@@ -822,7 +781,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
             
     }});
-}
+  }
 
   async cargandoContactos(msg: MessageI) {
     msg.isMe = this.currentChat.title === msg.owner ? true : false;
@@ -834,6 +793,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       isRead:false, 
       lastMsg:msg.content, 
       msgs:[msg]})
+
+      this.Addinfo = msg.from;
+      
+      
   }
   async myNewMessages(msg: MessageI){
     console.log("si imprimo mis mensajes")
@@ -842,13 +805,46 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onSelectInbox(index: number) {
+
     this.Activechat =this.chats[index].email;
     console.log(this.Activechat);
     this.currentChat.title = this.chats[index].title;
-      this.currentChat.icon = this.chats[index].icon;
-      this.currentChat.msgs = this.chats[index].msgs;
-  this.chatService.idenificadorId(this.Activechat);
+    this.currentChat.icon = this.chats[index].icon;
+    this.currentChat.msgs = this.chats[index].msgs;
+    this.chatService.idenificadorId(this.Activechat);
+
     }
 
   SearchAnim() {}
+
+  ConfirmPopUp(countPop: number) {
+    const query: string = "#app .ConfirmPopUp";
+    const ConfirmPopUp: any = document.querySelector(query);
+
+    if (countPop == 0) {
+      // this.countPop = 1;
+      ConfirmPopUp.style.opacity = 1;
+      ConfirmPopUp.style.transform = "scale(1)";
+    } else {
+      countPop = 0;
+      ConfirmPopUp.style.opacity = 0;
+      ConfirmPopUp.style.transform = "scale(0)";
+    }
+  }
+
+  countPop: number = 0;
+
+  async Add(){
+    console.log("Entre en add");
+    this.countPop = 1;
+    this.count = 0;
+    this.ConfirmPopUp(this.countPop);
+    this.addcontact(this.count);
+    console.log(this.count);
+    console.log(this.countPop);
+    let Email;
+    
+    Email = this.FormAdd.controls.email;
+    Email = this.Addinfo;
+  }
 }

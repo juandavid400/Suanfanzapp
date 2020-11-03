@@ -1,7 +1,7 @@
 <div id="app">
     <div class="leftBigContainer">
         <div class="addcontact">
-            <div class="goBackBtn" (click)="addcontact()"> 
+            <div class="goBackBtn" (click)="openaddContact()"> 
                 <svg class="backimg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                     <path fill="#ffffff" d="M12 4l1.4 1.4L7.8 11H20v2H7.8l5.6 5.6L12 20l-8-8 8-8z"></path>
                 </svg>
@@ -102,7 +102,7 @@
                         <div class="statusContainer">
                             <svg id="df9d3429-f0ef-48b5-b5eb-f9d27b2deba6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M12.072 1.761a10.05 10.05 0 0 0-9.303 5.65.977.977 0 0 0 1.756.855 8.098 8.098 0 0 1 7.496-4.553.977.977 0 1 0 .051-1.952zM1.926 13.64a10.052 10.052 0 0 0 7.461 7.925.977.977 0 0 0 .471-1.895 8.097 8.097 0 0 1-6.012-6.386.977.977 0 0 0-1.92.356zm13.729 7.454a10.053 10.053 0 0 0 6.201-8.946.976.976 0 1 0-1.951-.081v.014a8.097 8.097 0 0 1-4.997 7.209.977.977 0 0 0 .727 1.813l.02-.009z"></path><path fill="#009588" d="M19 1.5a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"></path></svg>
                         </div>
-                        <div class="newChatContainer" (click)="addcontact()" >
+                        <div class="newChatContainer" (click)="openaddContact()" >
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M19.005 3.175H4.674C3.642 3.175 3 3.789 3 4.821V21.02l3.544-3.514h12.461c1.033 0 2.064-1.06 2.064-2.093V4.821c-.001-1.032-1.032-1.646-2.064-1.646zm-4.989 9.869H7.041V11.1h6.975v1.944zm3-4H7.041V7.1h9.975v1.944z"></path></svg>
                         </div>
                         <div class="leftMore" (click)="SettingsToggle()">
@@ -114,7 +114,7 @@
                                     <div class="desplegable"  (click)="createGroup()" title="New group">New group</div>
                                 </li>
                                 <li  class="AddingContact" >
-                                    <div class="desplegable"  (click)="addcontact()" title="Add contact">Add contact</div>
+                                    <div class="desplegable"  (click)="openaddContact()" title="Add contact">Add contact</div>
                                 </li>
                                 <li  class="ProfileOptions">
                                     <div class="desplegable"  (click)="PerfilPhoto()" title="Profile">Profile</div>
@@ -135,11 +135,7 @@
             <div class="searchIcon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M15.009 13.805h-.636l-.22-.219a5.184 5.184 0 0 0 1.256-3.386 5.207 5.207 0 1 0-5.207 5.208 5.183 5.183 0 0 0 3.385-1.255l.221.22v.635l4.004 3.999 1.194-1.195-3.997-4.007zm-4.808 0a3.605 3.605 0 1 1 0-7.21 3.605 3.605 0 0 1 0 7.21z"></path></svg>
             </div>
-            <!-- <div class="searchBarText">Search or start new chat</div> -->
-            <!-- <h3 align="center" >{{register.email}}</h3>
-            <p align="center">{{register.telefono}}</p>
-            <p align="center">{{register.name}}</p> 
-            <p align="center">{{register.lname}}</p>  -->
+            
             <input type="search" class="searchBar" placeholder="Search or start new chat" />
             
         </div>
@@ -151,6 +147,13 @@
     <div class="rightBigContainer">
         <app-chat-area [title]="currentChat.title" [icon]="currentChat.icon" [msgs]="currentChat.msgs"></app-chat-area>
         <!-- <app-file-upload (fileUrlEmitter)="getUrl($event)" ></app-file-upload> -->
-           
+        <div class="ConfirmPopUp">
+            <div class="Add" (click)="Add()">
+                Add Contact
+            </div>
+            <div class="Block" >
+                Block
+            </div>
+        </div>   
     </div>
 </div>
