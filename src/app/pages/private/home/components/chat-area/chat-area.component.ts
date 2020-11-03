@@ -31,4 +31,39 @@ export class ChatAreaComponent implements OnInit {
     this.chatService.sendMsg(msg);
     this.msg = "";
   }
+
+  areaBusquedachat() {
+    const query: string = "#app .areaBusquedachat";
+    const areaBusquedachat: any = document.querySelector(query);
+
+    if (this.countbuschat == 0) {
+      this.countbuschat = 1;
+      areaBusquedachat.style.right = 0;
+    } else {
+      this.countbuschat = 0;
+      areaBusquedachat.style.right = "-100vh";
+    }
+  }
+
+  countbuschat: number = 0;
+
+
+  areaEmoji() {
+    const query: string = "#app .areaEmoji";
+    const areaEmoji: any = document.querySelector(query);
+
+    if (this.countemoji == 0) {
+      this.countemoji = 1;
+      areaEmoji.style.bottom = 0;
+    } else {
+      this.countemoji = 0;
+      areaEmoji.style.bottom = "-100vh";
+    }
+  }
+
+  countemoji: number = 0;
+
+
+
+
 }

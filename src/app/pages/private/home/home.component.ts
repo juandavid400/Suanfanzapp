@@ -191,6 +191,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   count : number = 0;
 
+  areaEstados() {
+    const query: string = "#app .areaEstados";
+    const areaEstados: any = document.querySelector(query);
+
+    if (this.countEstad == 0) {
+      this.countEstad = 1;
+      areaEstados.style.left = 0;
+    } else {
+      this.countEstad = 0;
+      areaEstados.style.left = "-100vh";
+    }
+  }
+
+  countEstad: number = 0;
+
   PerfilPhoto(){
     const query: string = '#app .PerfilPhoto';
     const PerfilPhoto: any = document.querySelector(query);
@@ -265,6 +280,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   SearchAnim(){
     
   }
+
+
   
 
 }

@@ -1,19 +1,32 @@
 <div class="topBarRight">
+    <div class="areaBusquedachat">
+        <div class="goBackBtn" (click)="areaBusquedachat()"> 
+            <span data-testid="x" data-icon="x" class=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19.1 17.2l-5.3-5.3 5.3-5.3-1.8-1.8-5.3 5.4-5.3-5.3-1.8 1.7 5.3 5.3-5.3 5.3L6.7 19l5.3-5.3 5.3 5.3 1.8-1.8z"></path></svg></span>
+            search message
+        </div>
+
+        <app-search></app-search>
+            
+    </div> 
     <div class="tbRightContainer">
         <div class="profilePicContainer">
             <img class="profilePic" [src]="icon" alt="" srcset="">
         </div>
         <div class="namePersonChat">{{ title }}</div>
-        <div class="rightRightIcons">
-            <div class="searchIconRight">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M15.9 14.3H15l-.3-.3c1-1.1 1.6-2.7 1.6-4.3 0-3.7-3-6.7-6.7-6.7S3 6 3 9.7s3 6.7 6.7 6.7c1.6 0 3.2-.6 4.3-1.6l.3.3v.8l5.1 5.1 1.5-1.5-5-5.2zm-6.2 0c-2.6 0-4.6-2.1-4.6-4.6s2.1-4.6 4.6-4.6 4.6 2.1 4.6 4.6-2 4.6-4.6 4.6z"></path></svg>
-            </div>
-            <div class="rightMore">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"></path></svg>
-            </div>
+
+            <div class="rightRightIcons">  
+                <div class="searchIconRight" (click)="areaBusquedachat()">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M15.9 14.3H15l-.3-.3c1-1.1 1.6-2.7 1.6-4.3 0-3.7-3-6.7-6.7-6.7S3 6 3 9.7s3 6.7 6.7 6.7c1.6 0 3.2-.6 4.3-1.6l.3.3v.8l5.1 5.1 1.5-1.5-5-5.2zm-6.2 0c-2.6 0-4.6-2.1-4.6-4.6s2.1-4.6 4.6-4.6 4.6 2.1 4.6 4.6-2 4.6-4.6 4.6z"></path></svg>
+            
+                </div>
+                
+                <div class="rightMore">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="#919191" d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"></path></svg>
+                </div>
+            </div> 
         </div>
     </div>
-</div>
 <div class="chat">
     <!--div class="chatDateContainer">
         <div class="chatDate">TODAY</div>
@@ -21,8 +34,930 @@
     <app-chat-message *ngFor="let msg of msgs" [content]="msg.content" [time]="msg.time" [isMe]="msg.isMe" [isRead] = "msg.isRead"></app-chat-message>
 </div>
 <div class="sendMessageForm">
+    <div class="areaEmoji">
+        <div class="goBackBtn2" (click)="areaEmoji()"> 
+            <span data-testid="x" data-icon="x" class=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19.1 17.2l-5.3-5.3 5.3-5.3-1.8-1.8-5.3 5.4-5.3-5.3-1.8 1.7 5.3 5.3-5.3 5.3L6.7 19l5.3-5.3 5.3 5.3 1.8-1.8z"></path></svg></span> 
+        </div>
+        <app-search></app-search>
+
+        <div class="emojicontainer">
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="🤨" class="_5zft img" draggable="false" height="50" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb8/1/28/1f928.png" width="50">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😗" class="_5zft img" draggable="false" height="50" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td5/1/28/1f617.png" width="50">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😀" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/taf/1/28/1f600.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😃" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t32/1/28/1f603.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😄" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb3/1/28/1f604.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😁" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t30/1/28/1f601.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😆" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb5/1/28/1f606.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😅" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t34/1/28/1f605.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😂" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb1/1/28/1f602.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="🤣" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t33/1/28/1f923.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😔" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t52/1/28/1f614.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😊" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t60/1/28/1f60a.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😇" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t36/1/28/1f607.png" width="28">
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="🙂" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2d/1/28/1f642.png" width="28">  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="🙃" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tae/1/28/1f643.png" width="28">  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😉" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t38/1/28/1f609.png" width="28">  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😌" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t62/1/28/1f60c.png" width="28">    
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😍" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/te3/1/28/1f60d.png" width="28">   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="🥰" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tcb/1/28/1f970.png" width="28">  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😘" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t56/1/28/1f618.png" width="28">   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😗" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td5/1/28/1f617.png" width="28">   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😙" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td7/1/28/1f619.png" width="28">  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😚" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tff/1/28/1f61a.png" width="28">  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😋" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/te1/1/28/1f60b.png" width="28"> 
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <img alt="😛" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t80/1/28/1f61b.png" width="28"> 
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😜" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t1/1/28/1f61c.png" width="28"></div></span> 
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤪" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t61/1/28/1f92a.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤨" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb8/1/28/1f928.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🧐" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tbe/1/28/1f9d0.png" width="28"></div></span>  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤓" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t94/1/28/1f913.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😎" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t64/1/28/1f60e.png" width="28"></div></span>  
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤩" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t39/1/28/1f929.png" width="28"></div></span>    
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🥳" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4e/1/28/1f973.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😏" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/te5/1/28/1f60f.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😒" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t50/1/28/1f612.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😞" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t3/1/28/1f61e.png" width="28"></div></span>   
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😟" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t84/1/28/1f61f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😕" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td3/1/28/1f615.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🙁" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tac/1/28/1f641.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="☹️" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td2/1/28/2639.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😣" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t70/1/28/1f623.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😖" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t54/1/28/1f616.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😫" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t1f/1/28/1f62b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😩" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t76/1/28/1f629.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🥺" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t7c/1/28/1f97a.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😢" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tef/1/28/1f622.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😭" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t21/1/28/1f62d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😤" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf1/1/28/1f624.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😠" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/ted/1/28/1f620.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😡" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t6e/1/28/1f621.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤬" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t63/1/28/1f92c.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤯" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/te6/1/28/1f92f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😳" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf/1/28/1f633.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🥵" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t50/1/28/1f975.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🥶" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td1/1/28/1f976.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😱" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td/1/28/1f631.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😨" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf5/1/28/1f628.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😰" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8c/1/28/1f630.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😥" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t72/1/28/1f625.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😓" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td1/1/28/1f613.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤗" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t98/1/28/1f917.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤔" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t15/1/28/1f914.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤭" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/te4/1/28/1f92d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤫" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/te2/1/28/1f92b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤥" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t35/1/28/1f925.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😶" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t92/1/28/1f636.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😐" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4e/1/28/1f610.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😑" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tcf/1/28/1f611.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😬" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta0/1/28/1f62c.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🙄" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2f/1/28/1f644.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😯" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t23/1/28/1f62f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😦" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf3/1/28/1f626.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😧" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t74/1/28/1f627.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😮" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta2/1/28/1f62e.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😲" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8e/1/28/1f632.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🥱" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/28/1f971.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😴" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t90/1/28/1f634.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤤" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb4/1/28/1f924.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😪" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t9e/1/28/1f62a.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😵" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t11/1/28/1f635.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤐" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t11/1/28/1f910.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🥴" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tcf/1/28/1f974.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤢" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb2/1/28/1f922.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤮" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t65/1/28/1f92e.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤧" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t37/1/28/1f927.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😷" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t13/1/28/1f637.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤒" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t13/1/28/1f912.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤕" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t96/1/28/1f915.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤑" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t92/1/28/1f911.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤠" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb0/1/28/1f920.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😈" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb7/1/28/1f608.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👿" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tbc/1/28/1f47f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👹" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf/1/28/1f479.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👺" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t37/1/28/1f47a.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤡" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t31/1/28/1f921.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="💩" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t25/1/28/1f4a9.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👻" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb8/1/28/1f47b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="💀" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t25/1/28/1f480.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="☠️" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/taa/1/28/2620.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👽" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tba/1/28/1f47d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👾" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t3b/1/28/1f47e.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤖" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t17/1/28/1f916.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🎃" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t67/1/28/1f383.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😺" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t3d/1/28/1f63a.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😸" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t94/1/28/1f638.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😹" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t15/1/28/1f639.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😻" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tbe/1/28/1f63b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😼" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t3f/1/28/1f63c.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😽" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc0/1/28/1f63d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🙀" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2b/1/28/1f640.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😿" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc2/1/28/1f63f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="😾" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t41/1/28/1f63e.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤲" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t51/1/28/1f932.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👐" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t48/1/28/1f450.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🙌" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tde/1/28/1f64c.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👏" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tdf/1/28/1f44f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="🤝" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t45/1/28/1f91d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👍" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tdd/1/28/1f44d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👎" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5e/1/28/1f44e.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><div class="_4f4q"></div><img alt="👊" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5a/1/28/1f44a.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="✊" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5e/1/28/270a.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤛" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t43/1/28/1f91b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤜" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc4/1/28/1f91c.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤞" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc6/1/28/1f91e.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="✌️" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t60/1/28/270c.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤟" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t47/1/28/1f91f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤘" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t19/1/28/1f918.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👌" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5c/1/28/1f44c.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤏" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta8/1/28/1f90f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👈" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb1/1/28/1f448.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👉" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t32/1/28/1f449.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👆" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/taf/1/28/1f446.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👇" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t30/1/28/1f447.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="☝️" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t3f/1/28/261d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="✋" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tdf/1/28/270b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤚" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc2/1/28/1f91a.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🖐" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5/1/28/1f590.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🖖" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb/1/28/1f596.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👋" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tdb/1/28/1f44b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🤙" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t9a/1/28/1f919.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="💪" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4d/1/28/1f4aa.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🦾" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t35/1/28/1f9be.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🖕" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8a/1/28/1f595.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="✍️" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/te1/1/28/270d.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🙏" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t61/1/28/1f64f.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🦶" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t86/1/28/1f9b6.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🦵" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5/1/28/1f9b5.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🦿" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb6/1/28/1f9bf.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="💄" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t29/1/28/1f484.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="💋" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t57/1/28/1f48b.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👄" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tad/1/28/1f444.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🦷" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t7/1/28/1f9b7.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👅" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2e/1/28/1f445.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👂" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tab/1/28/1f442.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🦻" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb2/1/28/1f9bb.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👃" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2c/1/28/1f443.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👣" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t6a/1/28/1f463.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👁" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2a/1/28/1f441.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👀" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta9/1/28/1f440.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🧠" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5d/1/28/1f9e0.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🗣" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tdc/1/28/1f5e3.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👤" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/teb/1/28/1f464.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👥" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t6c/1/28/1f465.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👶" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8c/1/28/1f476.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👧" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t6e/1/28/1f467.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🧒" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tc0/1/28/1f9d2.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👦" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/ted/1/28/1f466.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👩" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t70/1/28/1f469.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🧑" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t3f/1/28/1f9d1.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👨" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tef/1/28/1f468.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👩‍🦱" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tb/1/28/1f469_200d_1f9b1.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🧑‍🦱" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tdc/1/28/1f9d1_200d_1f9b1.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👨‍🦱" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2c/1/28/1f468_200d_1f9b1.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👩‍🦰" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8a/1/28/1f469_200d_1f9b0.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="🧑‍🦰" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t5b/1/28/1f9d1_200d_1f9b0.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👨‍🦰" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/tab/1/28/1f468_200d_1f9b0.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👱‍♀️" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t75/1/28/1f471_200d_2640.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👱" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t7/1/28/1f471.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👱‍♂️" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t77/1/28/1f471_200d_2642.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👩‍🦳" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/td/1/28/1f469_200d_1f9b3.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👨‍🦳" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t2e/1/28/1f468_200d_1f9b3.png" width="28"></div></span>
+                </div>
+            </div>
+            <div class="emojiPicContainer">
+                <div class="emojiPic">
+                    <span class=""><div class="_5zfs" role="button" tabindex="0"><img alt="👩‍🦲" class="_5zft img" draggable="false" height="28" src="https://static.xx.fbcdn.net/images/emoji.php/v9/t8c/1/28/1f469_200d_1f9b2.png" width="28"></div></span>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>  
     <div class="leftMessageFormIcons">
-        <div class="smileyContainer">
+        <div class="smileyContainer" (click)="areaEmoji()">
+               
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="26" height="26"><path fill="#919191" d="M9.153 11.603c.795 0 1.439-.879 1.439-1.962s-.644-1.962-1.439-1.962-1.439.879-1.439 1.962.644 1.962 1.439 1.962zm-3.204 1.362c-.026-.307-.131 5.218 6.063 5.551 6.066-.25 6.066-5.551 6.066-5.551-6.078 1.416-12.129 0-12.129 0zm11.363 1.108s-.669 1.959-5.051 1.959c-3.505 0-5.388-1.164-5.607-1.959 0 0 5.912 1.055 10.658 0zM11.804 1.011C5.609 1.011.978 6.033.978 12.228s4.826 10.761 11.021 10.761S23.02 18.423 23.02 12.228c.001-6.195-5.021-11.217-11.216-11.217zM12 21.354c-5.273 0-9.381-3.886-9.381-9.159s3.942-9.548 9.215-9.548 9.548 4.275 9.548 9.548c-.001 5.272-4.109 9.159-9.382 9.159zm3.108-9.751c.795 0 1.439-.879 1.439-1.962s-.644-1.962-1.439-1.962-1.439.879-1.439 1.962.644 1.962 1.439 1.962z"></path></svg>
         </div>
         <div class="clipContainer">
