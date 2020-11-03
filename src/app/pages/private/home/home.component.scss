@@ -253,7 +253,12 @@ $titleFont: sfProTextMedium;
                         border-style: none;
                         .EditName{
                             display: flex;
-                            align-self: flex-end;
+                            align-self: flex-end !important;
+                            width: 100%;
+                            .Check{
+                                display: flex;
+                                align-self: flex-end;
+                            }
                         }
                         .dropzone {
                             display: flex;

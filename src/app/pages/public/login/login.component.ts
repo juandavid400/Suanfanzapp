@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CustomValidators } from 'src/app/custom-validators'; 
 import { RegisterService } from "src/app/shared/services/register.service";
 import * as firebase from 'firebase';
-
+import { ChatService } from 'src/app/shared/services/chat/chat.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   //
   
   constructor(private router:Router, /*private firebase: AngularFireDatabase*/ 
-    private firebaseAuth: AngularFireAuth, private toastr: ToastrService, private registerService: RegisterService) { }
+    private firebaseAuth: AngularFireAuth, private toastr: ToastrService, private registerService: RegisterService,private chatService: ChatService) { }
 
     registerList: UserI[];
     register= [];
@@ -74,8 +74,9 @@ export class LoginComponent implements OnInit {
     }
 
     if(userExist){
-      
+
       firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+        this.chatService.IdUsuario(email);
         this.router.navigate(['/home']);
         this.toastr.success('Login successful', 'Login acount', {
           positionClass: 'toast-top-center'

@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   Currentimg: string;
   register = [];
   itemRef: any;
+  Activechat: any;
 
 //---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
   fileUrl: string;
@@ -192,6 +193,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
      await this.PrintConsistance();
      await this.UpdatePerfilPhoto();
+    //  await this.RecorrerListaSocket();
+     await this.WhoIsWritingMe();
   }
 
   
@@ -243,11 +246,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSelectInbox(index: number) {
-    this.currentChat.title = this.chats[index].title;
-    this.currentChat.icon = this.chats[index].icon;
-    this.currentChat.msgs = this.chats[index].msgs;
-  }
+  // onSelectInbox(index: number) {
+  //   this.currentChat.title = this.chats[index].title;
+  //   this.currentChat.icon = this.chats[index].icon;
+  //   this.currentChat.msgs = this.chats[index].msgs;
+  // }
 
   async doLogout() {
     await this.authService.logout();
@@ -440,23 +443,18 @@ export class HomeComponent implements OnInit, OnDestroy {
  // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
         if (childData.email == Email) {
           Key = childKey;
-          console.log("entramos", childKey);
-          console.log("recorrido", childKey);
           // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
             const infoChildKey = info.key;
             const infoChildData = info.val();
-            console.log("info", infoChildKey);
             // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
             info.forEach((contact) => {
               const contactChildKey = contact.key;
-              console.log("contact", contactChildKey);
               // TERCERA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
               contact.forEach((Numbercontact) => {
                 const numberContactChildKey = Numbercontact.key;
                 const numberContactchildData = Numbercontact.val();
                 if (numberContactchildData == ContactNumber) {
-                  console.log("Ya lo tienes añadido");
                   this.contactAdded = true;
                 }
                 console.log(
@@ -503,14 +501,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
             // creamos su inbox-chat
           this.chats.push({
+            email: ContactNumber,
             title: ContactName,
             icon: this.ImageSelected,
             isRead: false,
             msgPreview: "Entonces ando usando fotos reales hahaha",
             lastMsg: "11:13",
             msgs: [
-              { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
-              { content: "Qué?", isRead: true, isMe: false, time: "7:25" },
+              {  content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
+              {  content: "Qué?", isRead: true, isMe: false, time: "7:25" },
             ]
           });
           let chatsSize = this.chats.length - 1;
@@ -551,14 +550,15 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
 
             this.chats.push({
+              email: addEmail,
               title: ContactName,
               icon: this.ImageSelected,
               isRead: false,
               msgPreview: "Melosqui melosqui",
               lastMsg: "11:13",
               msgs: [
-                { content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
-                { content: "Qué?", isRead: true, isMe: false, time: "7:25" },
+                {  content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
+                {  content: "Qué?", isRead: true, isMe: false, time: "7:25" },
               ]
             });
         } else {
@@ -598,16 +598,12 @@ export class HomeComponent implements OnInit, OnDestroy {
  // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
         if (childData.email == Email) {
           Key = childKey;
-          console.log("entramos", childKey);
-          console.log("recorrido", childKey);
           // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
             const infoChildKey = info.key;
-            console.log("info", infoChildKey);
             // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
             info.forEach((contact) => {
               const contactChildKey = contact.key;
-              console.log("contact", contactChildKey);
               // TERCERA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
               contact.forEach((Numbercontact) => {
                 const numberContactChildKey = Numbercontact.key;
@@ -719,15 +715,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         const childData = user.val();
         if (childData.email == Email) {
           Key = childKey;
-          console.log("entramosCargaChat", childKey);
-          console.log("recorridoCargaChat", childKey);
           user.forEach(info => {
             const infoChildKey = info.key;
-            console.log("infoCargaChat", infoChildKey);
             if (infoChildKey == 'chatRooms') {
               info.forEach(chatRooms => {
-                const contactChildKey = chatRooms.key;
-                console.log("contactCargaChat", contactChildKey);
                 chatRooms.forEach(chats => {
                   const chatContactChildKey = chats.key;
                   const chatContactChildData = chats.val();
@@ -742,6 +733,122 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
     this.initChat();   
   }
+
+  async RecorrerListaSocket(){
+    let Key;
+    let userExist;
+    let LastMsg;
+    let MesgPreview;
+    let Msgs;
+    const Email = firebase.auth().currentUser.email;
+
+    await this.firebase.database.ref("registers").once("value", (users) => {
+      users.forEach((user) => {
+        const childKey = user.key;
+        const childData = user.val();      
+        if (childData.email == Email) {
+          Key = childKey;
+          user.forEach((info) => {
+            info.forEach((chatRooms) => {
+              chatRooms.forEach((EmailChat) => {
+                const numberContactChildKey = EmailChat.key;
+                const numberContactchildData = EmailChat.val();
+                if (numberContactChildKey == "email") {
+                  
+                  this.subscriptionList.msgs=this.chatService.paraRenderizarMensaje().subscribe((msg: MessageI) => {
+                    userExist = this.chats.find((user) => user.email == msg.from);
+                    if (userExist) {                      
+                      console.log("Segundo IF y meto nuevo mensage")
+                      console.log("ya exite el contacto")
+                      LastMsg = userExist.lastMsg;
+                      MesgPreview = userExist.msgPreview;
+                      Msgs = userExist.msgs;
+                      LastMsg = msg.content;
+                      MesgPreview = msg.time;
+                      msg.isMe = this.currentChat.title === msg.owner ? true : false;
+                      Msgs.push(msg);
+                      }else{
+                        console.log("Entro al Elsey creo nuevo contacto")
+                        console.log("Nuevo contacto");
+                        this.cargandoContactos(msg);
+                        }
+                  });
+                  
+                }
+                console.log(
+                  "numberContact",
+                  numberContactChildKey,
+                  numberContactchildData
+                );
+              });
+            });
+          });
+        }
+      });
+    });
+  }
+
+  WhoIsWritingMe(){
+    console.log("Entre a la funcion renderizar");
+    this.subscriptionList.msgs=this.chatService.paraRenderizarMensaje().subscribe((msg: MessageI) => {
+      console.log("Llego mensaje");
+      console.log(msg.content);
+      if(this.chats.length==0){
+        console.log("primer IF")
+        this.cargandoContactos(msg);
+      }else{
+        for (let i = 0; i < this.chats.length; i++) {
+        console.log("entre al for y voy en el recorrido: "+i)
+          const newLocal = this.chats[i].email;
+        if (msg.from===newLocal) {
+          console.log("Segundo IF y meto nuevo mensage")
+          console.log("ya exite el contacto")
+          this.chats[i].lastMsg=msg.content
+          this.chats[i].msgPreview=msg.time
+          msg.isMe = this.currentChat.title === msg.owner ? true : false;
+          this.chats[i].msgs.push(msg);
+          }else{
+            console.log("Entre al else")
+            let f=i
+            f++
+            if (f==this.chats.length) {
+            console.log("Entro al Elsey creo nuevo contacto")
+            console.log("Nuevo contacto");
+            this.cargandoContactos(msg);
+            break
+            }
+            
+            }
+          }
+            
+    }});
+}
+
+  async cargandoContactos(msg: MessageI) {
+    msg.isMe = this.currentChat.title === msg.owner ? true : false;
+    this.chats.push({
+      email:msg.from,
+      title:msg.from,
+      icon:"../../../../assets/img/Noimage.jpg",
+      msgPreview:msg.time, 
+      isRead:false, 
+      lastMsg:msg.content, 
+      msgs:[msg]})
+  }
+  async myNewMessages(msg: MessageI){
+    console.log("si imprimo mis mensajes")
+    msg.isMe=true;
+    this.currentChat.msgs.push(msg);
+  }
+
+  onSelectInbox(index: number) {
+    this.Activechat =this.chats[index].email;
+    console.log(this.Activechat);
+    this.currentChat.title = this.chats[index].title;
+      this.currentChat.icon = this.chats[index].icon;
+      this.currentChat.msgs = this.chats[index].msgs;
+  this.chatService.idenificadorId(this.Activechat);
+    }
 
   SearchAnim() {}
 }
