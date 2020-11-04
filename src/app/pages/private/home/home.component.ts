@@ -28,6 +28,7 @@ import { error, info } from 'console';
 export class HomeComponent implements OnInit, OnDestroy {
   contactAdded: boolean = false;
   contactGroup: boolean = false;
+  ListoImagen: boolean = false;
   AddToGroup: string;
   ImageSelected: string;
   registerList: UserI[];
@@ -40,10 +41,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   integrants: string[] = [];
   NameGroup: string;
   CurrentGroupimg: string;
+  KeyGroup: any;
+  copyKey: any;
 
 //---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
   fileUrl: string;
   ImgUrl:  string;
+  ImgGUrl:  string;
 
   getUrl(event){
     this.fileUrl = event;
@@ -57,10 +61,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async getGroupImg(event){
-    this.ImgUrl = event;
-    console.log("URL recibida en padre: " + this.ImgUrl);
+    this.ImgGUrl = event;
+    console.log("URL recibida en padre: " + this.ImgGUrl);
    await this.groupImage();
-   await this.UpdateGroupPhoto();
   }
 
   async SendImage (){
@@ -92,10 +95,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   async groupImage (){
     console.log("ENTRE MANASO");
-
-    if(this.ImgUrl){
-      let Key;
-      const Email = firebase.auth().currentUser.email;
+    let Key;
+    const Email = firebase.auth().currentUser.email;
+    if(this.ImgGUrl){      
       await this.firebase.database.ref("registers").once("value", (users) => {
         users.forEach((user) => {
           const childKey = user.key;
@@ -106,6 +108,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               info.forEach((group) =>{
                 const groupChildKey = group.key;              
                 if (groupChildKey == this.NameGroup){
+                  console.log(groupChildKey);
                   info.forEach((Images) => {
                     Images.forEach((ImgUrl) => {
                       const ImagesChildKey = ImgUrl.key;
@@ -113,7 +116,24 @@ export class HomeComponent implements OnInit, OnDestroy {
                       const filter = /https:/gm;                    
                       if (ImagesChildKey == "ImgUrl"){
                         this.CurrentGroupimg = ImagesChildData;
-                      } 
+                      }
+                      console.log(ImagesChildKey);
+                      console.log(ImagesChildData); 
+
+                      let icon;
+          
+                        // if (childData.email == Email) {
+                        //   // if (ImagesChildKey == this.NameGroup ){}
+                        //     console.log("Entre en if");
+                        //     console.log("valor de ImagesChildKey");
+                        //     console.log(ImagesChildKey);
+                        //     // if (ImagesChildKey != "chats" && ImagesChildKey == this.copyKey){}
+                        //       const fb = this.firebase.database.ref("registers").child(childKey);
+                        //       icon = this.ImgGUrl
+                        //       let data = icon;
+                        //       fb.child('chatRooms').child(this.NameGroup).child(ImagesChildKey).child("icon").set(data);
+                            
+                        // }
                     });
                   });
                 }
@@ -121,18 +141,40 @@ export class HomeComponent implements OnInit, OnDestroy {
               
             });
           }
+          
         });
       });
 
-        this.firebase.database.ref("registers").child(Key).child(this.NameGroup).child("Images").push({
-          ImgUrl: this.ImgUrl
-        });
-      
+        
+        
+        // this.firebase.database.ref("registers").child(this.copyKey).child('chatRooms').child(this.NameGroup).push({
+        //   icon: this.ImgGUrl
+        // });
+        
 
-      
-      
+
       this.toastr.success('Submit successful', 'Image updated');
     }
+  
+      const query: string = "#app .Groupimg";
+      const Groupimg: any = document.querySelector(query);
+      Groupimg.src = this.ImgGUrl;
+
+        this.chats.push({
+          owner: Email,
+          integrants: this.integrants,
+          title: this.NameGroup,
+          icon: this.ImgGUrl,
+          isRead: false,
+          msgPreview: "Melosqui melosqui",
+          lastMsg: "11:13",
+          msgs: [
+            {  content: Email + " has invite you to the group "+ this.NameGroup, isRead: true, isMe: true, time: "7:24" },
+          ]
+        });
+        
+                  
+      this.integrants = [];
   }
 
 //-----------------------------------------------------------------END DROP ZONE---------------------------------------  
@@ -257,7 +299,6 @@ export class HomeComponent implements OnInit, OnDestroy {
      await this.UpdatePerfilPhoto();
      await this.WhoIsWritingMe();
      await this.SearchImg();
-     await this.UpdateGroupPhoto();
   }
 
   
@@ -463,31 +504,50 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   //-----------------------------------------------------End Update perfil photo----------------------------------------------
   async UpdateGroupPhoto(){
-
+    console.log("Entre en UpdateGroupPhoto");
     let Key;
     const Email = firebase.auth().currentUser.email;
+    console.log(Email);
     await this.firebase.database.ref("registers").once("value", (users) => {
+      console.log("Entre en recorrido");
       users.forEach((user) => {
+        console.log("Entre en users");        
         const childKey = user.key;
-        const childData = user.val();     
+        const childData = user.val();
+        console.log(childKey);     
         if (childData.email == Email) {
+          console.log("Entre en if");
           Key = childKey;
+          console.log(Key);
           user.forEach((info) => {
-            info.forEach((group) =>{
-              const groupChildKey = group.key;              
-              if (groupChildKey == this.NameGroup){
-                info.forEach((Images) => {
-                  Images.forEach((ImgUrl) => {
-                    const ImagesChildKey = ImgUrl.key;
-                    const ImagesChildData = ImgUrl.val();
-                    const filter = /https:/gm;                    
-                    if (ImagesChildKey == "ImgUrl"){
-                      this.CurrentGroupimg = ImagesChildData;
-                    } 
+            console.log("Infokey");
+            const infochildKey = user.key;
+            if (infochildKey == this.NameGroup){
+              info.forEach((images) =>{      
+                  images.forEach((ImgUrl) => {
+                    const ImagesChildKey = ImgUrl.val();
+                    console.log("ImagesChildKey");
+                    console.log(ImagesChildKey);
+                    ImgUrl.forEach((ImgUrl) => {
+                      const ImagesChildKey = ImgUrl.key;
+                      const ImagesChildData = ImgUrl.val();
+                      const filter = /https:/gm;                    
+                      if (ImagesChildKey == "ImgUrl"){
+                        console.log("Entre en if de urlimagen");
+                        this.CurrentGroupimg = ImagesChildData;
+                      } 
+                      console.log("CurrentGroupimg");
+                      console.log(this.CurrentGroupimg);
+                      console.log("ImagesChildData");
+                      console.log(ImagesChildData);
+                      console.log(ImagesChildKey);
+  
+                    });
                   });
-                });
-              }
-            });
+                
+              });
+            }
+            
             
           });
         }
@@ -495,7 +555,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     if(!this.CurrentGroupimg) {
-      this.CurrentGroupimg = "../../../../assets/img/Noimage.jpg";
+      this.CurrentGroupimg = "../../../../assets/img/pa.jpg";
       const query: string = "#app .Groupimg";
       const Groupimg: any = document.querySelector(query);
       Groupimg.src = this.CurrentGroupimg;
@@ -542,7 +602,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 const ImagesChildData = ImgUrl.val();
                 const filter = /https:/gm;
 
-                if (ImagesChildData.match(filter)){
+                if (ImagesChildKey == "ImgUrl"){
                   this.ImageSelected = ImagesChildData;
                 }
                 
@@ -729,7 +789,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   //-----------------------------------------------------Group chat----------------------------------------------
   async SendGroup(){
-    let Key;
+
     let NameGroupContact = this.FormNewGroup.controls.NameGroupContact.value;
     this.NameGroup = this.FormNewGroup.controls.NameGroup.value;
     const Email = firebase.auth().currentUser.email;
@@ -745,7 +805,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         const childData = user.val();
  // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
         if (childData.email == Email) {
-          Key = childKey;
+          this.KeyGroup = childKey;
           // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
             const infoChildKey = info.key;
@@ -798,8 +858,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                 positionClass: "toast-top-center",
               }
             );
-            this.integrants.push(NameGroupContact);
-            this.firebase.database.ref('registers').child(Key).child(this.NameGroup).push({
+            if (!NameGroupContact){
+              console.log("ignore espacio vacio")
+            } else {
+              this.integrants.push(NameGroupContact);
+            }
+            this.copyKey = this.KeyGroup;
+            this.firebase.database.ref('registers').child(this.copyKey).child('chatRooms').child(this.NameGroup).push({
               owner: Email,
               integrants: this.integrants,
               name: this.NameGroup,
@@ -811,8 +876,9 @@ export class HomeComponent implements OnInit, OnDestroy {
               msgs: [
                 {  content: Email + " has invite you to the group "+ this.NameGroup, isRead: true, isMe: true, time: "7:24" },
               ]
-            });
-            this.integrants = [];
+            })
+            
+            
           } else {
             console.log("Entre en else de AreAllMembers");
              this.integrants.push(NameGroupContact);
@@ -855,8 +921,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 positionClass: "toast-top-center",
               }
             );
-            this.integrants.push(NameGroupContact);
-            this.firebase.database.ref('registers').child(Key).child(this.NameGroup).push({
+            this.firebase.database.ref('registers').child(this.KeyGroup).child(this.NameGroup).push({
               owner: Email,
               integrants: this.integrants,
               name: this.NameGroup,
@@ -982,8 +1047,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       msgs:[msg]})
 
       this.Addinfo = msg.from;
-      
-      
+
+      // this.firebase.database.ref('registers').child('chatRooms').child("chats").child("msgs").push({
+      //   email:msg.from,
+      //   number: msg.from,
+      //   title: msg.from,
+      //   icon:"../../../../assets/img/Noimage.jpg",
+      //   msgPreview:msg.time, 
+      //   isRead:false, 
+      //   lastMsg:msg.content, 
+      //   msgs:[msg]
+      // })  
   }
   async myNewMessages(msg: MessageI){
     console.log("si imprimo mis mensajes")

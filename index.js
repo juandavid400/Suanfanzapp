@@ -12,7 +12,7 @@ let connectedUsers = { }
 
 
 io.on('connection', (socket) => {
-  // io.sockets.emit('broadcast',userConnected);
+  io.sockets.emit('broadcast',userConnected);
   console.log("Socket Id:" + socket.id);
   console.log('a user connected');
   //console.log(socket.id);
@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
   socket.on('UserConnected', (user)=>{
 		//user.socketId = socket.id
     connectedUsers = addUser(connectedUsers, user);
-    socket.id.io.emit('broadcast',userConnected);
+    // socket.id.io.emit('broadcast',userConnected);
 		socket.user = user;
 		//sendMessageToChatFromUser = sendMessageToChat(user.name)
 		//sendTypingFromUser = sendTypingToChat(user.name)
