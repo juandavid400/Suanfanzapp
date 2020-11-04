@@ -10,6 +10,7 @@ import { FileUploadComponent } from '../../file-upload/file-upload.component';
 import { DropZoneDirective } from 'src/app/shared/services/drop-zone.directive';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule} from 'angularfire2/database';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { AngularFireDatabaseModule} from 'angularfire2/database';
     ChatAreaComponent,
     ChatMessageComponent,
     FileUploadComponent,        
-    DropZoneDirective,
+    DropZoneDirective, SearchComponent,
   ],
   imports: [
     CommonModule,  FormsModule, AngularFireAuthModule, ReactiveFormsModule, AngularFireDatabaseModule,ToastrModule.forRoot({

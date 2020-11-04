@@ -143,16 +143,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
           
         });
-      });
-
-        
-        
+      }); 
         // this.firebase.database.ref("registers").child(this.copyKey).child('chatRooms').child(this.NameGroup).push({
         //   icon: this.ImgGUrl
         // });
-        
-
-
       this.toastr.success('Submit successful', 'Image updated');
     }
   
@@ -382,6 +376,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  areaEstados() {
+    const query: string = "#app .areaEstados";
+    const areaEstados: any = document.querySelector(query);
+
+    if (this.countEstad == 0) {
+      this.countEstad = 1;
+      areaEstados.style.left = 0;
+    } else {
+      this.countEstad = 0;
+      areaEstados.style.left = "-100vh";
+    }
+  }
+
+  countEstad: number = 0;
+
   openaddContact(){
     if (this.count == 0){
       this.count = 1;
@@ -490,15 +499,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       const Photoimg: any = document.querySelector(query);
       const query2: string = "#app .profile";
       const profile: any = document.querySelector(query2);
+      const query3: string = "#app .profile2";
+      const profile2: any = document.querySelector(query3);
       Photoimg.src = this.Currentimg;
       profile.src = this.Currentimg;
+      profile2.src = this.Currentimg;
+      console.log(profile.src);
     } else {
       const query: string = "#app .Photoimg";
       const Photoimg: any = document.querySelector(query);
       const query2: string = "#app .profile";
       const profile: any = document.querySelector(query2);
+      const query3: string = "#app .profile2";
+      const profile2: any = document.querySelector(query3);
       Photoimg.src = this.Currentimg;
-      profile.src = this.Currentimg;      
+      profile.src = this.Currentimg;
+      profile2.src = this.Currentimg;
+      console.log(this.Currentimg);      
     }
     
   }

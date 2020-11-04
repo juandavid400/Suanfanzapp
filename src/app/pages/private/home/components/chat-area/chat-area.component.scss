@@ -10,6 +10,41 @@ $titleFont: sfProTextMedium;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .areaBusquedachat{
+        position: absolute;
+        display: flex;
+        flex-basis: 30%;
+        flex-flow: column;
+        z-index: 10;
+        height: 100%;
+        width: 35%;
+        background-color:  #ffffff;
+        right: -100vh;
+        transition: all .3s ease;
+        border-right:  c5beb7 solid 1px;
+        top: 0%;
+        
+        .goBackBtn{
+            width: 100%;
+            height: 59px;
+            font-size: 20px;
+            color: white;
+            font-family: sfProTextMedium;
+            padding-top: 2%;
+            padding-left: 20px;
+           // margin-bottom: 1px;
+            background-color:  #00BFA5;
+            cursor: pointer;
+            
+            .backimg{
+                width: 30px;
+                height: 30px;
+                margin-right: 20px;
+            }
+        }   
+    }
+
     .tbRightContainer {
         width: 100%;
         height: 59px;
@@ -78,6 +113,9 @@ $titleFont: sfProTextMedium;
     height: calc(100% - 121px);
     background: #E5DDD5;
     padding-top: 20px;
+    overflow: auto;
+    overflow-y: scroll;
+    
     .chatDateContainer {
         height: 32px;
         margin: 12px 0;
@@ -97,6 +135,22 @@ $titleFont: sfProTextMedium;
             box-shadow:0 1px .5px rgba(black,.13);
         }
     }
+    .bajar{
+        position: absolute;
+        bottom: 17px;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        background: white;
+        cursor: pointer;
+        margin-bottom: 5%;
+        margin-left: 65%;
+        border-radius: 100%;
+        
+    }
     
 }
 .sendMessageForm {
@@ -108,6 +162,64 @@ $titleFont: sfProTextMedium;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .areaEmoji{
+        position: absolute;
+        display: flex;
+        flex-basis: 30%;        
+        transform: scale(0); 
+        opacity: 0;
+        flex-flow: column;
+        z-index: 10;
+        height: 50vh;
+        width: 100%;
+        background-color:  white;
+        bottom: -50vh;
+        transition: all .3s ease;
+        border-right:  #ffffff solid 1px;
+        left: 30.3%;
+        .goBackBtn2{
+            width: 100%;
+            height: 8vh;
+            font-size: 20px;
+            color: white;
+            font-family: sfProTextMedium;
+            padding-top: 20px;
+            padding-left: 15px;
+            //margin-bottom: 1px;
+            background-color:  #00BFA5;
+            cursor: pointer;
+            
+            .backimg{
+                width: 30px;
+                height: 30px;
+                margin-right: 20px;
+            }
+        } 
+        .emojicontainer{
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            border: 5px black;
+            .emojiPicContainer {
+                width: 50px;
+                height: 50px;
+                padding: 15px 10px 10px 10px;
+                display: flex;
+                align-items: center;
+                .emojiPic {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }
+        }    
+    }
+
     .leftMessageFormIcons {
         width: 94px;
         height: 52px;
@@ -154,3 +266,4 @@ $titleFont: sfProTextMedium;
         cursor: pointer;
     }
 }
+
