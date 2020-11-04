@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   CurrentGroupimg: string;
   KeyGroup: any;
   copyKey: any;
+  dBlock: string[] = [];
 
 //---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
   fileUrl: string;
@@ -599,20 +600,14 @@ export class HomeComponent implements OnInit, OnDestroy {
  // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
         if (childData.email == ContactNumber || childData.telefono.e164Number == ContactNumber) {
           Key = childKey;
-          console.log("entramos", childKey);
-          console.log("recorrido", childKey);
           // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
             const infoChildKey = info.key;
             const infoChildData = info.val();
-            console.log("info", infoChildKey);
-            console.log("info", infoChildData);
             // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
             info.forEach((Images) => {
               const imagesChildKey = Images.key;
               const imagesChilData = Images.val();
-              console.log("Images", imagesChildKey);
-              console.log("YIPETAAAAAAA", imagesChilData);
               // SEGUNDA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
               Images.forEach((ImgUrl) => {
                 const ImagesChildKey = ImgUrl.key;
@@ -667,11 +662,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                 if (numberContactchildData == ContactNumber) {
                   this.contactAdded = true;
                 }
-                console.log(
-                  "numberContact",
-                  numberContactChildKey,
-                  numberContactchildData
-                );
               });
             });
           });
@@ -717,7 +707,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             title: ContactName,
             icon: this.ImageSelected,
             isRead: false,
-            msgPreview: "Entonces ando usando fotos reales hahaha",
+            msgPreview: "",
             lastMsg: "11:13",
             msgs: [
               {  content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
@@ -819,18 +809,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     await this.firebase.database.ref("registers").once("value", (users) => {
       users.forEach((user) => {
         const childKey = user.key;
-        const childData = user.val();
- // PRIMERA PASADA PARA RECORRER PRIMERA CAPA       
+        const childData = user.val();     
         if (childData.email == Email) {
           this.KeyGroup = childKey;
-          // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
-            const infoChildKey = info.key;
-            const infoChildData = info.val();
-            // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
             info.forEach((contact) => {
               const contactChildKey = contact.key;
-              // TERCERA PASADA PARA RECORRER LOS NUMERO Y NOMBRE
               contact.forEach((Numbercontact) => {
                 const numberContactChildKey = Numbercontact.key;
                 const numberContactchildData = Numbercontact.val();
@@ -894,7 +878,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 {  content: Email + " has invite you to the group "+ this.NameGroup, isRead: true, isMe: true, time: "7:24" },
               ]
             })
-            
+            this.integrants=[];
             
           } else {
             console.log("Entre en else de AreAllMembers");
@@ -929,7 +913,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       } else {
         if (this.contactGroup == true) {
           if (this.AreAllMembers == true){
-            this.all();
+            this.AreAllMembers = false;
             console.log("Entre en if de AreAllMembers");
             this.toastr.success(
               "The group " + this.NameGroup + " was created",
@@ -938,7 +922,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                 positionClass: "toast-top-center",
               }
             );
-            this.firebase.database.ref('registers').child(this.KeyGroup).child(this.NameGroup).push({
+            if (!NameGroupContact){
+              console.log("ignore espacio vacio")
+            } else {
+              this.integrants.push(NameGroupContact);
+            }
+            this.copyKey = this.KeyGroup;
+            this.firebase.database.ref('registers').child(this.copyKey).child('chatRooms').child(this.NameGroup).push({
               owner: Email,
               integrants: this.integrants,
               name: this.NameGroup,
@@ -950,8 +940,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               msgs: [
                 {  content: Email + " has invite you to the group "+ this.NameGroup, isRead: true, isMe: true, time: "7:24" },
               ]
-            });
-            this.integrants = [];
+            })
+          this.integrants=[];
           } else {
             console.log("Entre en else de AreAllMembers");
              this.integrants.push(NameGroupContact);
@@ -1014,7 +1004,7 @@ export class HomeComponent implements OnInit, OnDestroy {
  
   WhoIsWritingMe(){
     console.log("Entre a la funcion renderizar");
-    this.subscriptionList.msgs=this.chatService.paraRenderizarMensaje().subscribe((msg: MessageI) => {
+    this.chatService.paraRenderizarMensaje().subscribe((msg: MessageI) => {
       console.log("Llego mensaje");
       console.log(msg.content);
       if(this.chats.length==0){
@@ -1022,15 +1012,19 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.cargandoContactos(msg);
       }else{
         for (let i = 0; i < this.chats.length; i++) {
-        console.log("entre al for y voy en el recorrido: "+i)
+         
+          console.log("entre al for y voy en el recorrido: "+i);  
           const newLocal = this.chats[i].email;
+          console.log(this.chats);
+          console.log(newLocal);  
         if (msg.from===newLocal) {
           console.log("Segundo IF y meto nuevo mensage")
           console.log("ya exite el contacto")
-          this.chats[i].lastMsg=msg.content
-          this.chats[i].msgPreview=msg.time
+          this.chats[i].lastMsg=msg.time;
+          this.chats[i].msgPreview=msg.content;
           msg.isMe = this.currentChat.title === msg.owner ? true : false;
           this.chats[i].msgs.push(msg);
+          break;
           }else{
             this.countPop = 0;
             this.ConfirmPopUp(this.countPop);
@@ -1058,9 +1052,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       number: msg.from,
       title: msg.from,
       icon:"../../../../assets/img/Noimage.jpg",
-      msgPreview:msg.time, 
+      msgPreview:msg.content, 
       isRead:false, 
-      lastMsg:msg.content, 
+      lastMsg:msg.time, 
       msgs:[msg]})
 
       this.Addinfo = msg.from;
@@ -1076,21 +1070,32 @@ export class HomeComponent implements OnInit, OnDestroy {
       //   msgs:[msg]
       // })  
   }
+  
   async myNewMessages(msg: MessageI){
+    //this.statusUserDesconnected()
     console.log("si imprimo mis mensajes")
+    //this.esLeido(msg.from)
     msg.isMe=true;
+    this.chatService.itsSelectd().subscribe((user:string) => {
+      console.log("me Suscribi Aquien esta tocado")
+    if (msg.from==user) {
+      msg.isRead=true
+    }
+    });
     this.currentChat.msgs.push(msg);
   }
 
-  onSelectInbox(index: number) {
-
+  async onSelectInbox(index: number) {
+    // this.estadoActual="online";
     this.Activechat =this.chats[index].email;
-    console.log(this.Activechat);
+   //this.statusUser();
     this.currentChat.title = this.chats[index].title;
-    this.currentChat.icon = this.chats[index].icon;
-    this.currentChat.msgs = this.chats[index].msgs;
+      this.currentChat.icon = this.chats[index].icon;
+      this.currentChat.msgs = this.chats[index].msgs;
+      // this.currentChat.status=this.chats[index].status;
+      console.log("he undido en"+this.currentChat.title)
+      // console.log("estado"+this.currentChat.status)
     this.chatService.idenificadorId(this.Activechat);
-
     }
 
   SearchAnim() {}
@@ -1122,7 +1127,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(this.countPop);
     let Email;
     
-    Email = this.FormAdd.controls.email;
+    // Email = this.FormAdd.controls.email.value();
     Email = this.Addinfo;
+    console.log("Addinfo");
+    console.log(this.Addinfo);
+    this.chats.pop();
   }
+
+  async Block(){
+    console.log("Entre en add");
+    this.countPop = 1;
+    this.count = 0;
+    this.ConfirmPopUp(this.countPop);
+
+    this.chats.pop();
+  }
+
+  
 }

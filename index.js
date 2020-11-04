@@ -29,6 +29,19 @@ io.on('connection', (socket) => {
 
   });
 
+  socket.on('esteSeleccionado', (identificador) =>{
+    console.log("esta seleccionado"+identificador)
+    usuario=isUser(connectedUsers,identificador)
+      console.log("ConnectedUser[identificador] "+usuario)
+      if (usuario===false) {
+        console.log("usuario no conectado")
+        io.emit('Desconectado',identificador)
+      }else{
+        const recieverSocket = connectedUsers[identificador].id
+      io.to(recieverSocket).emit('EstaConectado',identificador)
+    }
+  })
+
   //Funcion cuando alguien se desconecte
   socket.on('disconnect', ()=>{
     io.sockets.emit('broadcast',' ')
@@ -69,16 +82,26 @@ io.on('connection', (socket) => {
   //recibe la info del mensaje privado
   socket.on('WhatMessage',(msg,mensaje)=>{
 		//if(msg.to in connectedUsers){
-			const recieverSocket = connectedUsers[msg.to].id
+      usuario=isUser(connectedUsers,msg.to)
+      console.log("ConnectedUser[msg.to] "+usuario)
+      if (usuario===undefined) {
+        console.log("usuario no conectado")
+        io.emit('Desconectado',msg.to)
+      }else{
+        const recieverSocket = connectedUsers[msg.to].id
+      //const recieverName = connectedUsers[msg.from].name
       //io.to(recieverSocket).emit(mensaje)
       console.log("Se ha enviado mensahe a: "+recieverSocket+","+msg.to)
       console.log("Se ha enviado: "+mensaje.content)
       console.log("mensaje from: "+msg.from)
       //HomeComponent.WhoIsWritingMe(msg.from,mensaje)
-			io.to(recieverSocket).emit('Send',mensaje)
+      io.emit('Conectado',msg.to)
+      io.to(recieverSocket).emit('Send',mensaje)
+      }
+      //
     //}
     //io.emit('otro',mensaje)
-  });
+  })
 
 
 });

@@ -23,7 +23,7 @@ export class ChatService {
   connect() {
     console.log("me conecte perros")
     return new Observable(observer => {
-      this.socket = io('http://localhost:3000');
+      this.socket = io('https://ccffd03f6939.ngrok.io');
       this.socket.on('connect', () => {
         this.identificadormio=this.socket.id;
         this.ListaUsuarios.push(this.email,this.identificadormio);
@@ -39,17 +39,24 @@ export class ChatService {
     })
     
   }
+
+  itsSelectd(){
+    return new Observable(observer => {
+      this.socket.on("EstaConectado", seleccionado => {
+        console.log("este esta seleccionado"+seleccionado)
+        observer.next(seleccionado);
+      });
+    });
+  }
+
   //identifica a quien le va a enviar el mensaje
   idenificadorId(identificador:string){
-    /*return new Observable(observer => {
-      this.socket.on("who", msg => {
-        observer.next(msg);
-      });
-    });*/
     this.identificacion=identificador
     console.log("Identificaden la Funcion Identificador:" +identificador);
+    this.socket.emit('esteSeleccionado', identificador);
     console.log("Lista en La funcion identificador: "+this.ListaUsuarios);
   }
+  
   //le envia al servidor quien acaba de conectarse
   EnviarUsuario(recibido:NewUsers){
     let usuerio: NewUsers = {

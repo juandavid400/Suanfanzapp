@@ -26,7 +26,7 @@ export class ChatAreaComponent implements OnInit {
   ngOnInit(): void {
     this.socket.on('broadcast', (socket) => {
       const status = document.getElementById('statusConection');
-      status.innerHTML = socket
+      // status.innerHTML = socket
     })
     
     const boton_bajar = document.getElementById('bajar');
