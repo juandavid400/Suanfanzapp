@@ -1,10 +1,10 @@
 import { MessageI } from './MessageI';
 
-export interface ChatI{
-    email: string
-    number: any
+export interface Group{
+    owner?: string
+    integrants: string[]
+    name: string
     title: string
-    status?: string
     icon: string
     msgPreview: string
     isRead: boolean

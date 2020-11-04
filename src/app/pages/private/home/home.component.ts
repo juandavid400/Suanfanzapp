@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { ChatService } from "src/app/shared/services/chat/chat.service";
 import { ChatI } from "./interfaces/ChatI";
+import { Group } from "./interfaces/Group";
 import { MessageI } from "./interfaces/MessageI";
 import { RegisterService } from "src/app/shared/services/register.service";
 import { UserI } from "src/app/shared/interfaces/UserI";
@@ -17,7 +18,7 @@ import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage'
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'protractor';
-import { error } from 'console';
+import { error, info } from 'console';
 
 @Component({
   selector: "app-home",
@@ -26,7 +27,8 @@ import { error } from 'console';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   contactAdded: boolean = false;
-  AddToGroup: boolean = false;
+  contactGroup: boolean = false;
+  AddToGroup: string;
   ImageSelected: string;
   registerList: UserI[];
   Currentimg: string;
@@ -34,6 +36,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   itemRef: any;
   Activechat: any;
   Addinfo: string;
+  AreAllMembers: boolean = false;
+  integrants: string[] = [];
+  NameGroup: string;
+  CurrentGroupimg: string;
 
 //---------------------------------------------------INIT DROP ZONE--------------------------------------------------------  
   fileUrl: string;
@@ -48,6 +54,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log("URL recibida en padre: " + this.ImgUrl);
    await this.SendImage();
    await this.UpdatePerfilPhoto();
+  }
+
+  async getGroupImg(event){
+    this.ImgUrl = event;
+    console.log("URL recibida en padre: " + this.ImgUrl);
+   await this.groupImage();
+   await this.UpdateGroupPhoto();
   }
 
   async SendImage (){
@@ -68,9 +81,55 @@ export class HomeComponent implements OnInit, OnDestroy {
                    
         });
       });
+
       this.firebase.database.ref("registers").child(Key).child("Images").push({
         ImgUrl: this.ImgUrl
       });
+      
+      this.toastr.success('Submit successful', 'Image updated');
+    }
+  }
+
+  async groupImage (){
+    console.log("ENTRE MANASO");
+
+    if(this.ImgUrl){
+      let Key;
+      const Email = firebase.auth().currentUser.email;
+      await this.firebase.database.ref("registers").once("value", (users) => {
+        users.forEach((user) => {
+          const childKey = user.key;
+          const childData = user.val();     
+          if (childData.email == Email) {
+            Key = childKey;
+            user.forEach((info) => {
+              info.forEach((group) =>{
+                const groupChildKey = group.key;              
+                if (groupChildKey == this.NameGroup){
+                  info.forEach((Images) => {
+                    Images.forEach((ImgUrl) => {
+                      const ImagesChildKey = ImgUrl.key;
+                      const ImagesChildData = ImgUrl.val();
+                      const filter = /https:/gm;                    
+                      if (ImagesChildKey == "ImgUrl"){
+                        this.CurrentGroupimg = ImagesChildData;
+                      } 
+                    });
+                  });
+                }
+              });
+              
+            });
+          }
+        });
+      });
+
+        this.firebase.database.ref("registers").child(Key).child(this.NameGroup).child("Images").push({
+          ImgUrl: this.ImgUrl
+        });
+      
+
+      
       
       this.toastr.success('Submit successful', 'Image updated');
     }
@@ -84,7 +143,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   });
 
   FormNewGroup = new FormGroup({
-    NameGroupContact: new FormControl()
+    NameGroupContact: new FormControl(),
+    NameGroup: new FormControl(),
   });
 
   subscriptionList: {
@@ -94,6 +154,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     connection: undefined,
     msgs: undefined,
   };
+  groups: Array<Group> = [];
 
   chats: Array<ChatI> = [
     // {
@@ -195,6 +256,8 @@ export class HomeComponent implements OnInit, OnDestroy {
      await this.PrintConsistance();
      await this.UpdatePerfilPhoto();
      await this.WhoIsWritingMe();
+     await this.SearchImg();
+     await this.UpdateGroupPhoto();
   }
 
   
@@ -336,6 +399,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   countGroup: number = 0;
+
+  createImageGroup() {
+    const query: string = "#app .updateImageGroup";
+    const updateImageGroup: any = document.querySelector(query);
+
+    if (this.countImageGroup == 0) {
+      this.countImageGroup = 1;
+      updateImageGroup.style.left = 0;
+    } else {
+      this.countImageGroup = 0;
+      updateImageGroup.style.left = "-100vh";
+    }
+  }
+
+  countImageGroup: number = 0;
 //-----------------------------------------------------Update perfil photo----------------------------------------------
 
   async UpdatePerfilPhoto(){
@@ -384,6 +462,51 @@ export class HomeComponent implements OnInit, OnDestroy {
     
   }
   //-----------------------------------------------------End Update perfil photo----------------------------------------------
+  async UpdateGroupPhoto(){
+
+    let Key;
+    const Email = firebase.auth().currentUser.email;
+    await this.firebase.database.ref("registers").once("value", (users) => {
+      users.forEach((user) => {
+        const childKey = user.key;
+        const childData = user.val();     
+        if (childData.email == Email) {
+          Key = childKey;
+          user.forEach((info) => {
+            info.forEach((group) =>{
+              const groupChildKey = group.key;              
+              if (groupChildKey == this.NameGroup){
+                info.forEach((Images) => {
+                  Images.forEach((ImgUrl) => {
+                    const ImagesChildKey = ImgUrl.key;
+                    const ImagesChildData = ImgUrl.val();
+                    const filter = /https:/gm;                    
+                    if (ImagesChildKey == "ImgUrl"){
+                      this.CurrentGroupimg = ImagesChildData;
+                    } 
+                  });
+                });
+              }
+            });
+            
+          });
+        }
+      });
+    });
+
+    if(!this.CurrentGroupimg) {
+      this.CurrentGroupimg = "../../../../assets/img/Noimage.jpg";
+      const query: string = "#app .Groupimg";
+      const Groupimg: any = document.querySelector(query);
+      Groupimg.src = this.CurrentGroupimg;
+    } else {
+      const query: string = "#app .Groupimg";
+      const Groupimg: any = document.querySelector(query);
+      Groupimg.src = this.CurrentGroupimg;   
+    }
+    
+  }
+
   //-----------------------------------------------------Search IMg----------------------------------------------
 
   async SearchImg(){
@@ -512,6 +635,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             // creamos su inbox-chat
           this.chats.push({
             email: ContactNumber,
+            status: "",
+            number: addNumber,
             title: ContactName,
             icon: this.ImageSelected,
             isRead: false,
@@ -561,6 +686,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
             this.chats.push({
               email: addEmail,
+              status: "",
+              number: ContactNumber,
               title: ContactName,
               icon: this.ImageSelected,
               isRead: false,
@@ -570,6 +697,10 @@ export class HomeComponent implements OnInit, OnDestroy {
                 {  content: "Lorem ipsum dolor amet", isRead: true, isMe: true, time: "7:24" },
                 {  content: "Qué?", isRead: true, isMe: false, time: "7:25" },
               ]
+            });
+            let chatsSize = this.chats.length - 1;
+            this.firebase.database.ref('registers').child(Key).child('chatRooms').push({
+              chats: this.chats[chatsSize],
             });
         } else {
           this.toastr.error(
@@ -589,10 +720,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
   //-----------------------------------------------------End Send Contact----------------------------------------------
+  all(){
+    this.AreAllMembers = true;
+    this.SendGroup();
+    this.createImageGroup()
+    return this.AreAllMembers
+  }
+
   //-----------------------------------------------------Group chat----------------------------------------------
   async SendGroup(){
     let Key;
     let NameGroupContact = this.FormNewGroup.controls.NameGroupContact.value;
+    this.NameGroup = this.FormNewGroup.controls.NameGroup.value;
     const Email = firebase.auth().currentUser.email;
     let emailRegexp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g);
 
@@ -600,7 +739,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     let addNumber;
     let addEmail;
     let addName;
-
     await this.firebase.database.ref("registers").once("value", (users) => {
       users.forEach((user) => {
         const childKey = user.key;
@@ -611,6 +749,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           // SEGUNDA PASADA PARA RECORRER DENTRO DEL USUARIO
           user.forEach((info) => {
             const infoChildKey = info.key;
+            const infoChildData = info.val();
             // SEGUNDA PASADA PARA RECORRER DENTRO DE CONTACTS
             info.forEach((contact) => {
               const contactChildKey = contact.key;
@@ -619,9 +758,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 const numberContactChildKey = Numbercontact.key;
                 const numberContactchildData = Numbercontact.val();
                 if (numberContactchildData == NameGroupContact) {
-                  this.AddToGroup = true;
+                  this.contactGroup = true;
                 }
-                console.log(this.AddToGroup);
                 console.log(
                   "numberContact",
                   numberContactChildKey,
@@ -640,7 +778,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       userExist = this.registerList.find((user) => user.email == NameGroupContact);
       addNumber = userExist.telefono.e164Number;
       addName = userExist.name+ " " + userExist.lname;
-        
+      console.log("Es userexist");
+      console.log(userExist);
       NameGroupContact = (userExist && userExist.email) || undefined;
 
       if (!userExist) {
@@ -648,21 +787,45 @@ export class HomeComponent implements OnInit, OnDestroy {
           positionClass: "toast-top-center",
         });
       } else {
-        if (this.AddToGroup) {
-          this.SearchImg();
-          this.toastr.success(
-            "The user was " + addName + " added to the group",
-            "Added successfully",
-            {
-              positionClass: "toast-top-center",
-            }
-          );
-          this.firebase.database.ref("registers").child(Key).child("group").push({
-              Namecontact: addName,
-              Numbercontact: addNumber,
-              contactEmail: NameGroupContact,
+        if (this.contactGroup == true) {
+          if (this.AreAllMembers == true){
+            this.AreAllMembers = false;
+            console.log("Entre en if de AreAllMembers");
+            this.toastr.success(
+              "The group " + this.NameGroup + " was created",
+              "Added successfully",
+              {
+                positionClass: "toast-top-center",
+              }
+            );
+            this.integrants.push(NameGroupContact);
+            this.firebase.database.ref('registers').child(Key).child(this.NameGroup).push({
+              owner: Email,
+              integrants: this.integrants,
+              name: this.NameGroup,
+              title: this.NameGroup,
+              icon: "../../../../assets/img/Noimage.jpg",
+              isRead: false,
+              msgPreview: "Melosqui melosqui",
+              lastMsg: "11:13",
+              msgs: [
+                {  content: Email + " has invite you to the group "+ this.NameGroup, isRead: true, isMe: true, time: "7:24" },
+              ]
             });
-
+            this.integrants = [];
+          } else {
+            console.log("Entre en else de AreAllMembers");
+             this.integrants.push(NameGroupContact);
+             console.log("integrants");
+             console.log(this.integrants);
+             this.toastr.success(
+              "The user was " + addName + " added to the group",
+              "Added successfully",
+              {
+                positionClass: "toast-top-center",
+              }
+            );
+          }
         } else {
           this.toastr.error("The email dont exist in your contacts", "Check your contacts", {
             positionClass: "toast-top-center",
@@ -681,23 +844,45 @@ export class HomeComponent implements OnInit, OnDestroy {
           positionClass: "toast-top-center",
         });
       } else {
-        if (this.AddToGroup) {
-          this.SearchImg();
-          this.toastr.success(
-            "The user was " + addName + " added to the group",
-            "Added successfully",
-            {
-              positionClass: "toast-top-center",
-            }
-          );
-          this.firebase.database.ref("registers").child(Key).child("group").push({
-            Namecontact: addName,
-            Numbercontact: NameGroupContact,
-            contactEmail: addEmail,
-          });
-
-          
-
+        if (this.contactGroup == true) {
+          if (this.AreAllMembers == true){
+            this.all();
+            console.log("Entre en if de AreAllMembers");
+            this.toastr.success(
+              "The group " + this.NameGroup + " was created",
+              "Added successfully",
+              {
+                positionClass: "toast-top-center",
+              }
+            );
+            this.integrants.push(NameGroupContact);
+            this.firebase.database.ref('registers').child(Key).child(this.NameGroup).push({
+              owner: Email,
+              integrants: this.integrants,
+              name: this.NameGroup,
+              title: this.NameGroup,
+              icon: "../../../../assets/img/Noimage.jpg",
+              isRead: false,
+              msgPreview: "Melosqui melosqui",
+              lastMsg: "11:13",
+              msgs: [
+                {  content: Email + " has invite you to the group "+ this.NameGroup, isRead: true, isMe: true, time: "7:24" },
+              ]
+            });
+            this.integrants = [];
+          } else {
+            console.log("Entre en else de AreAllMembers");
+             this.integrants.push(NameGroupContact);
+             console.log("integrants");
+             console.log(this.integrants);
+             this.toastr.success(
+              "The user was " + addName + " added to the group",
+              "Added successfully",
+              {
+                positionClass: "toast-top-center",
+              }
+            );
+          }
         } else {
           this.toastr.error(
             "The user dont exist",
@@ -711,6 +896,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this.FormNewGroup.reset({
+      NameGroup: this.NameGroup,
       NameGroupContact: ""
     });
   }
@@ -732,7 +918,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                 chatRooms.forEach(chats => {
                   const chatContactChildKey = chats.key;
                   const chatContactChildData = chats.val();
-                  console.log("chats", chatContactChildData);
                   this.chats.push(chatContactChildData);
                 });
               });
@@ -784,10 +969,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async cargandoContactos(msg: MessageI) {
+
     msg.isMe = this.currentChat.title === msg.owner ? true : false;
     this.chats.push({
       email:msg.from,
-      title:msg.from,
+      number: msg.from,
+      title: msg.from,
       icon:"../../../../assets/img/Noimage.jpg",
       msgPreview:msg.time, 
       isRead:false, 

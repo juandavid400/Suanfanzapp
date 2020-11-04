@@ -29,12 +29,19 @@ $titleFont: sfProTextMedium;
                 cursor: pointer;
             }
         }
-        .namePersonChat {
-            font-size: 16px;
-            color: black;
-            font-family: $titleFont;
+        .nameStatusContainer {
             flex-grow: 1;
-            cursor: pointer;
+            .namePersonChat {
+                font-size: 16px;
+                color: black;
+                font-family: $titleFont;
+                flex-grow: 1;
+                cursor: pointer;
+            }
+            .statusConection {
+                color: #767676;
+                font-size: 13px;
+            }
         }
         .rightRightIcons {
             height: 40px;
@@ -67,7 +74,8 @@ $titleFont: sfProTextMedium;
 }
 .chat {
     width: 100%;
-    height: calc(100% - 133px);
+    // height: calc(100% - 133px);
+    height: calc(100% - 121px);
     background: #E5DDD5;
     padding-top: 20px;
     .chatDateContainer {
@@ -128,9 +136,10 @@ $titleFont: sfProTextMedium;
         padding: 9px 12px 11px;
         border-radius: 21px;
         background: white;
-        border-style: none;
+        font-family: $bodyFont;
+        font-size: 15px;
+        border: none;
         outline: none;
-        
         .messageFormText {
             height: 20px;
             font-size: 14.2px;

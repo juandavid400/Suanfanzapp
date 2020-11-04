@@ -1,6 +1,7 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const userConnected = "online";
 
 const port = 3000;
 // const { isClassOrTypeElement } = require('typescript');
@@ -11,13 +12,15 @@ let connectedUsers = { }
 
 
 io.on('connection', (socket) => {
+  // io.sockets.emit('broadcast',userConnected);
   console.log("Socket Id:" + socket.id);
   console.log('a user connected');
   //console.log(socket.id);
   //console.log(email);
   socket.on('UserConnected', (user)=>{
 		//user.socketId = socket.id
-		connectedUsers = addUser(connectedUsers, user);
+    connectedUsers = addUser(connectedUsers, user);
+    socket.id.io.emit('broadcast',userConnected);
 		socket.user = user;
 		//sendMessageToChatFromUser = sendMessageToChat(user.name)
 		//sendTypingFromUser = sendTypingToChat(user.name)
@@ -28,6 +31,7 @@ io.on('connection', (socket) => {
 
   //Funcion cuando alguien se desconecte
   socket.on('disconnect', ()=>{
+    io.sockets.emit('broadcast',' ')
 		if("user" in socket){
 			connectedUsers = removeUser(connectedUsers, socket.user.name)
 
