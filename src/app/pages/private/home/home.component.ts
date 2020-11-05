@@ -9,14 +9,14 @@ import { RegisterService } from "src/app/shared/services/register.service";
 import { UserI } from "src/app/shared/interfaces/UserI";
 // import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireAuth } from "@angular/fire/auth";
-import {  FormControl,FormGroup,NgForm,Validators,FormBuilder,} from "@angular/forms";
+import {  FormControl,FormGroup,NgForm,Validators,FormBuilder, NgModelGroup,} from "@angular/forms";
 import * as firebase from "firebase";
 import { Router } from "@angular/router";
 import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
 import { ToastrService } from "ngx-toastr";
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, mergeScan } from 'rxjs/operators';
 import { Key } from 'protractor';
 import { error, info } from 'console';
 
@@ -1005,41 +1005,52 @@ export class HomeComponent implements OnInit, OnDestroy {
   WhoIsWritingMe(){
     console.log("Entre a la funcion renderizar");
     this.chatService.paraRenderizarMensaje().subscribe((msg: MessageI) => {
-      console.log("Llego mensaje");
-      console.log(msg.content);
-      if(this.chats.length==0){
-        console.log("primer IF")
-        this.cargandoContactos(msg);
-      }else{
-        for (let i = 0; i < this.chats.length; i++) {
-         
-          console.log("entre al for y voy en el recorrido: "+i);  
-          const newLocal = this.chats[i].email;
-          console.log(this.chats);
-          console.log(newLocal);  
-        if (msg.from===newLocal) {
-          console.log("Segundo IF y meto nuevo mensage")
-          console.log("ya exite el contacto")
-          this.chats[i].lastMsg=msg.time;
-          this.chats[i].msgPreview=msg.content;
-          msg.isMe = this.currentChat.title === msg.owner ? true : false;
-          this.chats[i].msgs.push(msg);
+      console.log("Entre en suscribe" + msg.from);
+      for (let i = 0; i <= this.dBlock.length; i++) {
+        console.log("Entre en for");
+        if (msg.from == this.dBlock[i]){
+          console.log("Entre en break");
           break;
-          }else{
-            this.countPop = 0;
-            this.ConfirmPopUp(this.countPop);
-            console.log("Entre al else")
-            let f=i
-            f++
-            if (f==this.chats.length) {
-            console.log("Entro al Elsey creo nuevo contacto")
-            console.log("Nuevo contacto");
+        } else {
+          console.log("Llego mensaje");
+          console.log(msg.content);
+          if(this.chats.length==0){
+            console.log("primer IF")
             this.cargandoContactos(msg);
-            break
-            }
-            
-            }
-          }
+          }else{
+            for (let i = 0; i < this.chats.length; i++) {
+             
+              console.log("entre al for y voy en el recorrido: "+i);  
+              const newLocal = this.chats[i].email;
+              console.log(this.chats);
+              console.log(newLocal);  
+            if (msg.from===newLocal) {
+              console.log("Segundo IF y meto nuevo mensage")
+              console.log("ya exite el contacto")
+              this.chats[i].lastMsg=msg.time;
+              this.chats[i].msgPreview=msg.content;
+              msg.isMe = this.currentChat.title === msg.owner ? true : false;
+              this.chats[i].msgs.push(msg);
+              break;
+              }else{
+                this.countPop = 0;
+                this.ConfirmPopUp(this.countPop);
+                console.log("Entre al else")
+                let f=i
+                f++
+                if (f==this.chats.length) {
+                console.log("Entro al Elsey creo nuevo contacto")
+                console.log("Nuevo contacto");
+                this.cargandoContactos(msg);
+                break
+                }
+                
+                }
+              }
+        }
+        
+      }
+     
             
     }});
   }
@@ -1127,19 +1138,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(this.countPop);
     let Email;
     
-    // Email = this.FormAdd.controls.email.value();
     Email = this.Addinfo;
     console.log("Addinfo");
     console.log(this.Addinfo);
     this.chats.pop();
   }
 
-  async Block(){
+  async Block(){ 
+    const Mycorreo = firebase.auth().currentUser.email;
     console.log("Entre en add");
     this.countPop = 1;
     this.count = 0;
     this.ConfirmPopUp(this.countPop);
-
+    let block;
+    
+    block = this.Addinfo;
+    this.dBlock.push(this.Addinfo);
+    this.chatService.msgBlock();
+    this.chatService.hasSidoBloqueado(block,Mycorreo);
     this.chats.pop();
   }
 

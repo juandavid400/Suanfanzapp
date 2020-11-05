@@ -42,6 +42,13 @@ io.on('connection', (socket) => {
     }
   })
 
+  socket.on('Bloqueado',(from , mycorreo) =>{
+    const Bloqueado = "Bloqueado" ;
+    const recieverSocket = connectedUsers[from].id
+    io.to(recieverSocket).emit('Enviado', Bloqueado , mycorreo)
+    
+  });
+
   //Funcion cuando alguien se desconecte
   socket.on('disconnect', ()=>{
     io.sockets.emit('broadcast',' ')

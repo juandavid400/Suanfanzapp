@@ -4,6 +4,7 @@ import { from, Observable } from 'rxjs';
 import { MessageI } from 'src/app/pages/private/home/interfaces/MessageI';
 import { MessagePrivate } from 'src/app/pages/private/home/interfaces/MessagePrivate';
 import { NewUsers } from 'src/app/pages/private/home/interfaces/NewUsers';
+import { ToastrService } from "ngx-toastr";
 
 
 @Injectable({
@@ -18,12 +19,12 @@ export class ChatService {
   idenfiticacionMensaje:any;
 
   ListaUsuarios=[{}];
-  constructor() { }
+  constructor(private toastr: ToastrService) { }
  
   connect() {
     console.log("me conecte perros")
     return new Observable(observer => {
-      this.socket = io('https://ccffd03f6939.ngrok.io');
+      this.socket = io('http://localhost:3000');
       this.socket.on('connect', () => {
         this.identificadormio=this.socket.id;
         this.ListaUsuarios.push(this.email,this.identificadormio);
@@ -37,8 +38,29 @@ export class ChatService {
         this.EnviarUsuario(enviar);
       })
     })
-    
   }
+
+  msgBlock(){
+    return new Observable(observer => {
+      this.toastr.error("You has been blocked","Pailander",
+        {
+          positionClass: "toast-top-center",
+        });
+
+      console.log("funcion desconectado")
+      //this.homeComponent.statusUserDesconnected();
+      this.socket.on('Enviado', (Bloqueado , mycorreo) => {
+        console.log("recibi a la gente conectada"+status)
+        console.log(Bloqueado);
+        observer.next(Bloqueado);
+      });
+    });
+  }
+
+  hasSidoBloqueado(from: string,mycorreo: string){
+    this.socket.emit('Bloqueado', from , mycorreo);
+  }
+
 
   itsSelectd(){
     return new Observable(observer => {
